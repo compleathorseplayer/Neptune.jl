@@ -1,4 +1,4 @@
-### A Pluto.jl notebook ###
+### A Neptune.jl notebook ###
 # v0.19.9
 
 using Markdown
@@ -8,7 +8,7 @@ using InteractiveUtils
 # ╠═╡ show_logs = false
 # ╠═╡ skip_as_script = true
 #=╠═╡
-# Only define this in Pluto using skip_as_script = true
+# Only define this in Neptune using skip_as_script = true
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
@@ -94,7 +94,7 @@ begin
 	_contents(a::AppendonlyMarker) = view(a.mutable_source, 1:a.length_at_time_of_creation)
 	
 	# Poor mans vector-proxy
-	# I think this is enough for Pluto to show, and for msgpack to pack
+	# I think this is enough for Neptune to show, and for msgpack to pack
 	Base.size(arr::AppendonlyMarker) = Base.size(_contents(arr))
 	Base.getindex(arr::AppendonlyMarker, index::Int) = Base.getindex(_contents(arr), index)
 	Base.iterate(arr::AppendonlyMarker, args...) = Base.iterate(_contents(arr), args...)
@@ -347,7 +347,7 @@ macro track(expr)
 		expr_to_show = expr.args[2].args[2]
 	end
 
-	Tracked # reference so that baby Pluto understands
+	Tracked # reference so that baby Neptune understands
 				
 	quote
 		local times_ran = length($(esc(times_ran_expr)))

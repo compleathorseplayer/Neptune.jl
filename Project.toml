@@ -1,8 +1,8 @@
-name = "Pluto"
-uuid = "c3e4b0f8-55cb-11ea-2926-15256bba5781"
+name = "Neptune"
+uuid = "e743aaa6-cd88-48fa-8898-5fe58e911dd1"
 license = "MIT"
-version = "0.20.24"
-authors = ["Fons van der Plas <fons@plutojl.org>"]
+version = "0.1.0"
+authors = ["David Edelman <compleathorseplayer@gmail.com>"]
 
 [deps]
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"

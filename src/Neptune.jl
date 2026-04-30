@@ -2,13 +2,13 @@
 Start a notebook server using:
 
 ```julia
-julia> Pluto.run()
+julia> Neptune.run()
 ```
 
 Have a look at the documentation:
 https://plutojl.org/en/docs/
 """
-module Pluto
+module Neptune
 
 if isdefined(Base, :Experimental) && isdefined(Base.Experimental, Symbol("@max_methods"))
     @eval Base.Experimental.@max_methods 1
@@ -29,7 +29,7 @@ function project_relative_path(root, xs...)
     root == "frontend-dist" && frontend_dist_exists ? joinpath(FRONTEND_DIST_DIR, xs...) :
     root == "frontend" ? joinpath(FRONTEND_DIR, xs...) :
     root == "sample" ? joinpath(SAMPLE_DIR, xs...) :
-        normpath(joinpath(pkgdir(Pluto), root, xs...))
+        normpath(joinpath(pkgdir(Neptune), root, xs...))
 end
 
 import Pkg
@@ -111,13 +111,13 @@ end
 function warn_julia_compat()
     if VERSION > v"1.12.9999"
         short = "$(VERSION.major).$(VERSION.minor)"
-        msg = "# WARNING: Unsupported Julia version\nPluto (`$(PLUTO_VERSION)`) is running on a new version of Julia (`$(VERSION)`). Support for Julia $short will be added in a later Pluto release.\n\nYou can try:\n$(
-            "  1. Update Pluto using `Pkg.update(\"Pluto\")`.\n" *
-            "  1. If there is no newer version of Pluto yet, then you can **help us develop it**! _Julia $short compatibility takes a lot of work, and we would really appreciate your help! $(julia_compat_issue(short)) to see what still needs to be done. Not all compatibility issues are known – play around and try running `Pkg.test(\"Pluto\")`_.\n\n")$(
+        msg = "# WARNING: Unsupported Julia version\nPluto (`$(PLUTO_VERSION)`) is running on a new version of Julia (`$(VERSION)`). Support for Julia $short will be added in a later Neptune release.\n\nYou can try:\n$(
+            "  1. Update Neptune using `Pkg.update(\"Neptune\")`.\n" *
+            "  1. If there is no newer version of Neptune yet, then you can **help us develop it**! _Julia $short compatibility takes a lot of work, and we would really appreciate your help! $(julia_compat_issue(short)) to see what still needs to be done. Not all compatibility issues are known – play around and try running `Pkg.test(\"Neptune\")`_.\n\n")$(
             VERSION.prerelease === () && VERSION.build === () ?
             "" :
             # if using a build/prerelease, then the user is using a future Julia version that we don't support yet.
-            "!!! note\n\tPreview versions of Julia are not fully supported by Pluto.\n\n"
+            "!!! note\n\tPreview versions of Julia are not fully supported by Neptune.\n\n"
         )"
         
         println()
@@ -129,7 +129,7 @@ function warn_julia_compat()
     
     bad_depots = filter(d -> !isabspath(expanduser(d)), DEPOT_PATH)
     if !isempty(bad_depots)
-        @error """Pluto: The provided depot path is not an absolute path. Pluto will not be able to run correctly.
+        @error """Neptune: The provided depot path is not an absolute path. Neptune will not be able to run correctly.
         
         Did you recently change the DEPOT path setting? Change your setting to use an absolute path.
         
@@ -147,16 +147,16 @@ function __init__()
         get(ENV, "CI", "🍄") != "true" && isinteractive())
         # Print the banner only once per version, if there isn't
         # yet a file for this version in banner_shown scratch space.
-        # (Using the Pluto version as the filename enables later
+        # (Using the Neptune version as the filename enables later
         # version-specific "what's new" messages.)
         fn = joinpath(Scratch.@get_scratch!("banner_shown"), PLUTO_VERSION_STR)
         if !isfile(fn)
             @info """
 
-              Welcome to Pluto $(PLUTO_VERSION_STR) 🎈
+              Welcome to Neptune $(PLUTO_VERSION_STR) 🎈
               Start a notebook server using:
 
-            julia> Pluto.run()
+            julia> Neptune.run()
 
               Have a look at the FAQ:
               https://github.com/fonsp/Pluto.jl/wiki

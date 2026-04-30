@@ -1,10 +1,10 @@
 import HTTP
 
-"""Pluto Events interface
+"""Neptune Events interface
 
-Use this interface to hook up functionality into the Pluto world.
+Use this interface to hook up functionality into the Neptune world.
 Events are guaranteed to be run at least every time something interesting happens,
-but keep in mind that Pluto may be run the events multiple times "logically". For instance,
+but keep in mind that Neptune may be run the events multiple times "logically". For instance,
 the FileSaveEvent may be triggered whenever pluto wants to make sure the file is saved, 
 which may be more often than the file is actually changed. Deduplicate on your own if
 you care about this.
@@ -28,10 +28,10 @@ julia> function myfn(a::FileSaveEvent)
         end
 ```
 
-Finally, pass the listener to Pluto's configurations with a keyword argument
+Finally, pass the listener to Neptune's configurations with a keyword argument
 
 ```julia-repl
-julia> Pluto.run(; on_event = myfn)
+julia> Neptune.run(; on_event = myfn)
 ```
 """
 abstract type PlutoEvent end
@@ -97,7 +97,7 @@ struct OpenNotebookEvent <: PlutoEvent
     notebook::Notebook
 end
 
-# Triggered when Pluto completes an evaluation loop
+# Triggered when Neptune completes an evaluation loop
 struct NotebookExecutionDoneEvent <: PlutoEvent
     notebook::Notebook
     user_requested_run::Bool
@@ -107,7 +107,7 @@ end
 # Useful if you want to create a file in a custom way,
 # before opening the notebook
 # Should return a redirect to /edit?id={notebook_id}
-# Note: use Pluto.open - try_launch_notebook_response will return a fitting response.
+# Note: use Neptune.open - try_launch_notebook_response will return a fitting response.
 struct CustomLaunchEvent <: PlutoEvent
     params::Dict{Any, Any}
     request::HTTP.Request

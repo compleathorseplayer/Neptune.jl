@@ -2,8 +2,8 @@ module MoreAnalysis
 
 export bound_variable_connections_graph
 
-import ..Pluto
-import ..Pluto: Cell, Notebook, NotebookTopology, ExpressionExplorer, ExpressionExplorerExtras, PlutoDependencyExplorer
+import ..Neptune
+import ..Neptune: Cell, Notebook, NotebookTopology, ExpressionExplorer, ExpressionExplorerExtras, PlutoDependencyExplorer
 import PlutoDependencyExplorer: all_cells
 
 

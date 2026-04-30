@@ -24,7 +24,7 @@ const ProcessStatus = (
 )
 
 """
-A Pluto notebook, yay! 📓
+A Neptune notebook, yay! 📓
 
 This mutable struct is a notebook session. It contains the information loaded from the `.jl` file, the cell outputs, package information, execution metadata and more.
 """
@@ -56,7 +56,7 @@ Base.@kwdef mutable struct Notebook
     compiler_options::Union{Nothing,Configuration.CompilerOptions}=nothing
     
     # package environment management
-    nbpkg_ctx::Union{Nothing,PkgContext}=nothing # nothing means that the notebook is not (yet) using Pluto's automatic package manager.
+    nbpkg_ctx::Union{Nothing,PkgContext}=nothing # nothing means that the notebook is not (yet) using Neptune's automatic package manager.
     nbpkg_ctx_instantiated::Bool=false
     nbpkg_restart_recommended_msg::Union{Nothing,String}=nothing
     nbpkg_restart_required_msg::Union{Nothing,String}=nothing

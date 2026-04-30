@@ -1,8 +1,8 @@
 module SessionActions
 
-import ..Pluto: Pluto, Status, ServerSession, Notebook, Cell, emptynotebook, tamepath, new_notebooks_directory, without_pluto_file_extension, numbered_until_new, cutename, readwrite, update_save_run!, update_nbpkg_cache!, update_from_file, wait_until_file_unchanged, putnotebookupdates!, putplutoupdates!, load_notebook, clientupdate_notebook_list, WorkspaceManager, try_event_call, NewNotebookEvent, OpenNotebookEvent, ShutdownNotebookEvent, @asynclog, ProcessStatus, maybe_convert_path_to_wsl, move_notebook!, Throttled
+import ..Neptune: Neptune, Status, ServerSession, Notebook, Cell, emptynotebook, tamepath, new_notebooks_directory, without_pluto_file_extension, numbered_until_new, cutename, readwrite, update_save_run!, update_nbpkg_cache!, update_from_file, wait_until_file_unchanged, putnotebookupdates!, putplutoupdates!, load_notebook, clientupdate_notebook_list, WorkspaceManager, try_event_call, NewNotebookEvent, OpenNotebookEvent, ShutdownNotebookEvent, @asynclog, ProcessStatus, maybe_convert_path_to_wsl, move_notebook!, Throttled
 using FileWatching
-import ..Pluto.DownloadCool: download_cool
+import ..Neptune.DownloadCool: download_cool
 import HTTP
 
 import UUIDs: UUID, uuid1
@@ -92,12 +92,12 @@ function open(session::ServerSession, path::AbstractString;
         notebook.compiler_options = compiler_options
     end
     if clear_frontmatter
-        Pluto.set_frontmatter!(notebook, nothing)
+        Neptune.set_frontmatter!(notebook, nothing)
     end
 
     
     if execution_allowed && session.options.evaluation.run_notebook_on_load
-        Pluto._report_business_cells_planned!(notebook)
+        Neptune._report_business_cells_planned!(notebook)
     end
     
     if !execution_allowed
@@ -199,7 +199,7 @@ function add(session::ServerSession, notebook::Notebook; run_async::Bool=true)
     end
     
     notebook.status_tree.update_listener_ref[] = Throttled.throttled(1.0 / 8; runtime_multiplier=4.0) do
-        Pluto.send_notebook_changes!(Pluto.ClientRequest(; session, notebook))
+        Neptune.send_notebook_changes!(Neptune.ClientRequest(; session, notebook))
     end
 
     return notebook
@@ -228,7 +228,7 @@ function new(session::ServerSession; run_async=true, notebook_id::UUID=uuid1())
     notebook = if session.options.compiler.sysimage === nothing
         emptynotebook()
     else
-        Notebook([Cell("import Pkg"), Cell("# This cell disables Pluto's package manager and activates the global environment. Click on ? inside the bubble next to Pkg.activate to learn more.\n# (added automatically because a sysimage is used)\nPkg.activate()"), Cell()])
+        Notebook([Cell("import Pkg"), Cell("# This cell disables Neptune's package manager and activates the global environment. Click on ? inside the bubble next to Pkg.activate to learn more.\n# (added automatically because a sysimage is used)\nPkg.activate()"), Cell()])
     end
 
     # Run NewNotebookEvent handler before assigning ID

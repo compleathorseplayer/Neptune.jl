@@ -1,4 +1,4 @@
-### A Pluto.jl notebook ###
+### A Neptune.jl notebook ###
 # v0.19.9
 
 using Markdown
@@ -18,7 +18,7 @@ begin
 	Pkg.add(name="PlutoTest", version="0.2")
 	pushfirst!(LOAD_PATH, local_env)
 
-	# activate Pluto's environment, used to load HTTP.jl
+	# activate Neptune's environment, used to load HTTP.jl
 	Pkg.activate(Base.current_project(@__FILE__))
 	using PlutoTest
 end

@@ -10,7 +10,7 @@ However, now it is suddenly possibly to catch the return error...
 module CantReturnInPluto
     struct CantReturnInPlutoException end
     function Base.showerror(io::IO, ::CantReturnInPlutoException)
-        print(io, "Pluto: You can only use return inside a function.")
+        print(io, "Neptune: You can only use return inside a function.")
     end
 
     """

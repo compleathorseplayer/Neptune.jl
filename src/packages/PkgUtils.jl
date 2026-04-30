@@ -2,9 +2,9 @@ module PkgUtils
 
 import FileWatching
 import Pkg
-import ..Pluto
-import ..Pluto: Notebook, save_notebook, load_notebook, load_notebook_nobackup, withtoken, Token, readwrite, PkgCompat, WorkspaceManager
-import ..Pluto.PkgCompat: project_file, manifest_file
+import ..Neptune
+import ..Neptune: Notebook, save_notebook, load_notebook, load_notebook_nobackup, withtoken, Token, readwrite, PkgCompat, WorkspaceManager
+import ..Neptune.PkgCompat: project_file, manifest_file
 
 using Markdown
 
@@ -14,9 +14,9 @@ ensure_has_nbpkg(notebook::Notebook) = if !will_use_pluto_pkg(notebook)
 
     # TODO: update_save the notebook to init packages and stuff?
     error("""
-    This notebook is not using Pluto's package manager. This means that the notebook contains Pkg.activate or Pkg.add call.
+    This notebook is not using Neptune's package manager. This means that the notebook contains Pkg.activate or Pkg.add call.
 
-    Open the notebook using Pluto to see what's up.
+    Open the notebook using Neptune to see what's up.
     """)
 else
     for f in [notebook |> project_file, notebook |> manifest_file]
@@ -61,7 +61,7 @@ end
 function write_dir_to_nb(dir::String, notebook::Notebook)
     assert_has_manifest(dir)
 
-    notebook.nbpkg_ctx = Pluto.PkgCompat.create_empty_ctx()
+    notebook.nbpkg_ctx = Neptune.PkgCompat.create_empty_ctx()
 
     readwrite(dir |> project_file, notebook |> project_file)
     readwrite(dir |> manifest_file, notebook |> manifest_file)
@@ -82,7 +82,7 @@ reset_notebook_environment(notebook_path::String; keep_project::Bool=false, back
 Remove the embedded `Project.toml` and `Manifest.toml` from a notebook file, modifying the notebook file. If `keep_project` is true, only `Manifest.toml` will be deleted. A backup of the notebook file is created by default.
 """
 function reset_notebook_environment(path::String; kwargs...)
-    Pluto.reset_nbpkg!(
+    Neptune.reset_nbpkg!(
         load_notebook_nobackup(path);
         kwargs...
     )
@@ -96,10 +96,10 @@ update_notebook_environment(notebook_path::String; backup::Bool=true, level::Pkg
 Call `Pkg.update` in the package environment embedded in a notebook file, modifying the notebook file. A [`Pkg.UpgradeLevel`](@ref) can be passed to the `level` keyword argument. A backup file is created by default. 
 """
 function update_notebook_environment(path::String; kwargs...)
-    session = Pluto.ServerSession()
+    session = Neptune.ServerSession()
     notebook = load_notebook_nobackup(path)
     try
-        Pluto.update_nbpkg(session, notebook; kwargs...)
+        Neptune.update_nbpkg(session, notebook; kwargs...)
     finally
         WorkspaceManager.unmake_workspace((session, notebook))
     end
@@ -110,7 +110,7 @@ end
 will_use_pluto_pkg(notebook_path::String)::Bool
 ```
 
-Will this notebook use the Pluto package manager? `false` means that the notebook contains `Pkg.activate` or another deactivator.
+Will this notebook use the Neptune package manager? `false` means that the notebook contains `Pkg.activate` or another deactivator.
 """
 will_use_pluto_pkg(path::String) = will_use_pluto_pkg(load_notebook_nobackup(path))
 function will_use_pluto_pkg(notebook::Notebook)
@@ -122,8 +122,8 @@ function will_use_pluto_pkg(notebook::Notebook)
     
     # otherwise, check for Pkg.activate:
     # when nbpkg_ctx is defined but the files are empty: check if the notebook would use one (i.e. that Pkg.activate is not used).
-    topology = Pluto.updated_topology(notebook.topology, notebook, notebook.cells)
-    return Pluto.use_plutopkg(topology)
+    topology = Neptune.updated_topology(notebook.topology, notebook, notebook.cells)
+    return Neptune.use_plutopkg(topology)
 end
 
 """
@@ -187,7 +187,7 @@ function activate_notebook_environment(path::String; show_help::Bool=true)
     Base.ACTIVE_PROJECT[] = ourpath
 
     # WATCH DIR PROJECT FILE
-    Pluto.@asynclog begin
+    Neptune.@asynclog begin
         while Base.ACTIVE_PROJECT[] == ourpath
             FileWatching.watch_file(ourpath |> project_file)
             # @warn "DIR PROJECT UPDATED"
@@ -199,7 +199,7 @@ function activate_notebook_environment(path::String; show_help::Bool=true)
     end
 
     # WATCH DIR MANIFEST FILE
-    Pluto.@asynclog begin
+    Neptune.@asynclog begin
         while Base.ACTIVE_PROJECT[] == ourpath
             FileWatching.watch_file(ourpath |> manifest_file)
             # @warn "DIR MANIFEST UPDATED"
@@ -211,7 +211,7 @@ function activate_notebook_environment(path::String; show_help::Bool=true)
     end
 
     # WATCH NOTEBOOK FILE
-    Pluto.@asynclog begin
+    Neptune.@asynclog begin
         while Base.ACTIVE_PROJECT[] == ourpath
             FileWatching.watch_file(path)
             # @warn "NOTEBOOK FILE UPDATED"
@@ -226,7 +226,7 @@ function activate_notebook_environment(path::String; show_help::Bool=true)
     end
 
     # CHECK EVERY 5 SECONDS
-    # Pluto.@asynclog begin
+    # Neptune.@asynclog begin
     #     while still_needed[]
     #         sleep(5)
     #         maybe_update_nb()
@@ -278,7 +278,7 @@ This method is best for scripts that update notebook files. For interactive use,
 # Example
 
 ```julia
-Pluto.activate_notebook_environment("notebook.jl") do
+Neptune.activate_notebook_environment("notebook.jl") do
     Pkg.add("Example")
 end
 
@@ -310,7 +310,7 @@ const activate_notebook = activate_notebook_environment
 function testnb(name="simple_stdlib_import.jl")
     t = tempname()
 
-    readwrite(Pluto.project_relative_path("test", "packages", "fixtures", name), t)
+    readwrite(Neptune.project_relative_path("test", "packages", "fixtures", name), t)
     t
 end
 

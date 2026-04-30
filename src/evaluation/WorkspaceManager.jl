@@ -1,11 +1,11 @@
 module WorkspaceManager
 import UUIDs: UUID, uuid1
-import ..Pluto
-import ..Pluto: Configuration, Notebook, Cell, ProcessStatus, ServerSession, ExpressionExplorer, pluto_filename, Token, withtoken, tamepath, project_relative_path, putnotebookupdates!, UpdateMessage
-import ..Pluto.Status
-import ..Pluto.PkgCompat
+import ..Neptune
+import ..Neptune: Configuration, Notebook, Cell, ProcessStatus, ServerSession, ExpressionExplorer, pluto_filename, Token, withtoken, tamepath, project_relative_path, putnotebookupdates!, UpdateMessage
+import ..Neptune.Status
+import ..Neptune.PkgCompat
 import ..Configuration: CompilerOptions, _merge_notebook_compiler_options, _convert_to_flags
-import ..Pluto.ExpressionExplorer: FunctionName
+import ..Neptune.ExpressionExplorer: FunctionName
 import ..PlutoRunner
 import Malt
 import Malt.Distributed
@@ -41,10 +41,10 @@ function process_preamble()
         ""
     end
     lp_hash = string(reinterpret(UInt64, SHA.sha1(loader_path * project_toml_contents)[1:8])[1]; base=62)
-    environment_path = joinpath(Pluto.pluto_boot_environment_path[], lp_hash)
+    environment_path = joinpath(Neptune.pluto_boot_environment_path[], lp_hash)
     # Now the environment path includes (a hash of):
     # - Julia version
-    # - Pluto version
+    # - Neptune version
     # - Loader.jl path
     # - PlutoRunner/Project.toml contents
     # And these 4 should uniquely define the contents of the Manifest.toml that gets generated. So we can safely use this as cache key.
@@ -269,7 +269,7 @@ function start_relaying_self_updates((session, notebook)::SN, run_channel)
             next_run_uuid = take!(run_channel)
 
             cell_to_run = notebook.cells_dict[next_run_uuid]
-            Pluto.run_reactive!(session, notebook, notebook.topology, notebook.topology, Cell[cell_to_run]; user_requested_run=false)
+            Neptune.run_reactive!(session, notebook, notebook.topology, notebook.topology, Cell[cell_to_run]; user_requested_run=false)
         catch e
             if !isopen(run_channel)
                 break
@@ -280,8 +280,8 @@ function start_relaying_self_updates((session, notebook)::SN, run_channel)
 end
 
 function start_relaying_logs((session, notebook)::SN, log_channel)
-    update_throttled = Pluto.Throttled.throttled(0.1) do
-        Pluto.send_notebook_changes!(Pluto.ClientRequest(; session, notebook))
+    update_throttled = Neptune.Throttled.throttled(0.1) do
+        Neptune.send_notebook_changes!(Neptune.ClientRequest(; session, notebook))
     end
 
     while true
@@ -329,7 +329,7 @@ function start_relaying_logs((session, notebook)::SN, log_channel)
             delete!(next_log, "new_published_objects")
 
             push!(display_cell.logs, next_log)
-            Pluto.@asynclog update_throttled()
+            Neptune.@asynclog update_throttled()
         catch e
             if !isopen(log_channel)
                 break
@@ -389,7 +389,7 @@ function create_workspaceprocess(WorkerType; compiler_options=CompilerOptions(),
         worker = WorkerType()
         
         if !(isdefined(Main, :PlutoRunner) && Main.PlutoRunner isa Module)
-            # we make PlutoRunner available in Main, right now it's only defined inside this Pluto module.
+            # we make PlutoRunner available in Main, right now it's only defined inside this Neptune module.
             Malt.remote_eval_wait(Main, worker, quote
                 PlutoRunner = $(PlutoRunner)
             end)
@@ -446,7 +446,7 @@ function get_workspace(session_notebook::SN; allow_creation::Bool=true, async::B
             get(active_workspaces, notebook.notebook_id, nothing)
         else
             get!(active_workspaces, notebook.notebook_id) do
-                🌸 = Pluto.@asynclog make_workspace(session_notebook)
+                🌸 = Neptune.@asynclog make_workspace(session_notebook)
                 yield(); 🌸
             end
         end

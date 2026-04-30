@@ -1,4 +1,4 @@
-### A Pluto.jl notebook ###
+### A Neptune.jl notebook ###
 # v0.20.4
 
 using Markdown
@@ -8,7 +8,7 @@ using InteractiveUtils
 # ╠═╡ show_logs = false
 # ╠═╡ skip_as_script = true
 #=╠═╡
-# Only define this in Pluto - assume we are `using Test` otherwise
+# Only define this in Neptune - assume we are `using Test` otherwise
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
@@ -35,7 +35,7 @@ md"# Diffing"
 md"""
 We define a _diffing system_ for Julia `Dict`s, which is analogous to the diffing system of immer.js.
 
-This notebook is part of Pluto's source code (included in `src/webserver/Dynamic.jl`).
+This notebook is part of Neptune's source code (included in `src/webserver/Dynamic.jl`).
 """
   ╠═╡ =#
 
@@ -1010,7 +1010,7 @@ macro track(expr)
 		expr_to_show = expr.args[2].args[2]
 	end
 
-	Tracked # reference so that baby Pluto understands
+	Tracked # reference so that baby Neptune understands
 				
 	quote
 		local times_ran = length($(esc(times_ran_expr)))

@@ -68,7 +68,7 @@ function with_io_to_logs(f::Function; enabled::Bool=true, loglevel::Logging.LogL
             popdisplay(redirect_display)
         catch e
             # This happens when the user calls `popdisplay()`, fine.
-            # @warn "Pluto's display was already removed?" e
+            # @warn "Neptune's display was already removed?" e
         end
 
         execution_done[] = true

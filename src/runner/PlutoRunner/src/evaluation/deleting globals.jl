@@ -13,7 +13,7 @@ function do_reimports(workspace_name, module_imports_to_move::Set{Expr})
 end
 
 """
-Move some of the globals over from one workspace to another. This is how Pluto "deletes" globals - it doesn't, it just executes your new code in a new module where those globals are not defined.
+Move some of the globals over from one workspace to another. This is how Neptune "deletes" globals - it doesn't, it just executes your new code in a new module where those globals are not defined.
 
 Notebook code does run in `Main` - it runs in workspace modules. Every time that you run cells, a new module is created, called `Main.workspace123` with `123` an increasing number.
 
@@ -66,7 +66,7 @@ function move_vars(
 
                 try
                     # We are clearing this variable from the notebook, so we need to find it's root
-                    # If its root is "controlled" by Pluto's workspace system (and is not a package module for example),
+                    # If its root is "controlled" by Neptune's workspace system (and is not a package module for example),
                     # we are just clearing out the definition in the old_module, besides giving an error
                     # (so that's what that `catch; end` is for)
                     # will not actually free it from Julia, the older module will still have a reference.

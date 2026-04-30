@@ -4,7 +4,7 @@ const imagemimes = MIME[MIME"image/svg+xml"(), MIME"image/png"(), MIME"image/jpg
 # in descending order of coolness
 # text/plain always matches - almost always
 """
-The MIMEs that Pluto supports, in order of how much I like them.
+The MIMEs that Neptune supports, in order of how much I like them.
 
 `text/plain` should always match - the difference between `show(::IO, ::MIME"text/plain", x)` and `show(::IO, x)` is an unsolved mystery.
 """
@@ -24,7 +24,7 @@ const struct_showmethod = which(show, (IO, 🥔))
 const struct_showmethod_mime = which(show, (IO, MIME"text/plain", 🥔))
 
 function use_tree_viewer_for_struct(@nospecialize(x::T))::Bool where T
-    # types that have no specialized show methods (their fallback is text/plain) are displayed using Pluto's interactive tree viewer.
+    # types that have no specialized show methods (their fallback is text/plain) are displayed using Neptune's interactive tree viewer.
     # this is how we check whether this display method is appropriate:
     isstruct = try
         T isa DataType &&
@@ -63,7 +63,7 @@ end
 
 """
 Like two-argument `Base.show`, except:
-1. the richest MIME type available to Pluto will be used
+1. the richest MIME type available to Neptune will be used
 2. the used MIME type is returned as second element
 3. if the first returned element is `nothing`, then we wrote our data to `io`. If it is something else (a Dict), then that object will be the cell's output, instead of the buffered io stream. This allows us to output rich objects to the frontend that are not necessarily strings or byte streams
 """

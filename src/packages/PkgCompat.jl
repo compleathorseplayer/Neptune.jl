@@ -2,7 +2,7 @@ module PkgCompat
 
 export package_versions, registered_package_names
 
-import ..Pluto
+import ..Neptune
 import ..TempDirInScratch
 import REPL
 import Pkg
@@ -233,7 +233,7 @@ function update_registries(; force::Bool=false)
 		try
 			Pkg.Registry.update()
 		catch
-			# sometimes it just fails but we dont want Pluto to be too sensitive to that
+			# sometimes it just fails but we dont want Neptune to be too sensitive to that
 			Pkg.Registry.update()
 		end
 		try
@@ -331,9 +331,9 @@ Return paths to all found registry entries of a given package name.
 
 # Example
 ```julia
-julia> Pluto.PkgCompat._registry_entries("Pluto")
+julia> Neptune.PkgCompat._registry_entries("Neptune")
 1-element Vector{String}:
- "/Users/fons/.julia/registries/General/P/Pluto"
+ "/Users/fons/.julia/registries/General/P/Neptune"
 ```
 """
 function _registry_entries(package_name::AbstractString, registries::Vector=_parsed_registries[])::Vector{String}
@@ -436,12 +436,12 @@ function dependencies(ctx)
 			@error """
 			Pkg error: you might need to use
 
-			Pluto.reset_notebook_environment(notebook_path)
+			Neptune.reset_notebook_environment(notebook_path)
 
 			to reset this notebook's environment.
 
-			Before doing so, consider sending your notebook file to https://github.com/JuliaPluto/Pluto.jl/issues together with the following info:
-			""" Pluto.PLUTO_VERSION VERSION exception=(e,catch_backtrace())
+			Before doing so, consider sending your notebook file to https://github.com/JuliaPluto/Neptune.jl/issues together with the following info:
+			""" Neptune.PLUTO_VERSION VERSION exception=(e,catch_backtrace())
 		end
 
 		Dict()

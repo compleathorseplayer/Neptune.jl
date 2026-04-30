@@ -101,7 +101,7 @@ Make some small adjustments to the `expr` to make it work nicely inside a timed,
 1. If `expr` is a `:toplevel` expression (this is the case iff the expression is a combination of expressions using semicolons, like `a = 1; b` or `123;`), then it gets turned into a `:block` expression. The reason for this transformation is that `:toplevel` does not return/relay the output of its last argument, unlike `begin`, `let`, `if`, etc. (But we want it!)
 2. If `expr` is a `:module` expression, wrap it in a `:toplevel` block - module creation needs to be at toplevel. Rule 1. is not applied.
 3. If `expr` is a `:(=)` expression with a curly assignment, wrap it in a `:const` to allow execution - see https://github.com/fonsp/Pluto.jl/issues/517
-4. If `expr` failed to parse, it has head in (:incomplete, :error) and is replaced with a call to PlutoRunner.throw_syntax_error which will render diagnostics in a frontend compatible manner (Pluto.jl#2526).
+4. If `expr` failed to parse, it has head in (:incomplete, :error) and is replaced with a call to PlutoRunner.throw_syntax_error which will render diagnostics in a frontend compatible manner (Neptune.jl#2526).
 """
 function preprocess_expr(expr::Expr)
     if expr.head === :toplevel
@@ -122,14 +122,14 @@ preprocess_expr(val::Any) = val
 
 
 """
-Does this `String` contain a single expression? If this function returns `false`, then Pluto will show a "multiple expressions in one cell" error in the editor.
+Does this `String` contain a single expression? If this function returns `false`, then Neptune will show a "multiple expressions in one cell" error in the editor.
 
-!!! compat "Pluto 0.20.5"
-    This function is new in Pluto 0.20.5.
+!!! compat "Neptune 0.20.5"
+    This function is new in Neptune 0.20.5.
 
 """
 function is_single_expression(s::String)
-    n = Pluto.Notebook([Pluto.Cell(s)])
+    n = Neptune.Notebook([Neptune.Cell(s)])
     e = parse_custom(n, n.cells[1])
     bad = Meta.isexpr(e, :toplevel, 2) && Meta.isexpr(e.args[2], :call, 2) && e.args[2].args[1] == :(PlutoRunner.throw_syntax_error) && e.args[2].args[2] isa String && startswith(e.args[2].args[2], "extra token after end of expression")
     

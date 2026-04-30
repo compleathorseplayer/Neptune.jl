@@ -73,7 +73,7 @@ For example, `Bond(html"<input type=range>", :x)` becomes:
 </bond>
 ```
 
-The actual reactive-interactive functionality is not done in Julia - it is handled by the Pluto front-end (JavaScript), which searches cell output for `<bond>` elements, and attaches event listeners to them. Put on your slippers and have a look at the JS code to learn more.
+The actual reactive-interactive functionality is not done in Julia - it is handled by the Neptune front-end (JavaScript), which searches cell output for `<bond>` elements, and attaches event listeners to them. Put on your slippers and have a look at the JS code to learn more.
 """
 struct Bond
     element::Any
@@ -83,7 +83,7 @@ struct Bond
  
     @bind $defines Slider(1:10)
  
-where `Slider(1:10)` can be any Pluto-compatible input widget, like those from PlutoUI.jl
+where `Slider(1:10)` can be any Neptune-compatible input widget, like those from PlutoUI.jl
 
 ---
 

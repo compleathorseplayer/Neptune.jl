@@ -14,7 +14,7 @@ Return the WSL path if the system is using the Windows Subsystem for Linux (WSL)
 WSL mounts the windows drive to /mnt/ and provides a utility tool to convert windows
 paths into WSL paths. This function will try to use this tool to automagically
 convert paths pasted from windows (with the right click -> copy as path functionality)
-into paths Pluto can understand.
+into paths Neptune can understand.
 
 Example:
 $(raw"C:\Users\pankg\OneDrive\Desktop\pluto\bakery_pnl_ready2.jl")
@@ -107,11 +107,11 @@ function new_notebooks_directory()
 end
 
 """
-Standard Pluto file extensions, including `.jl` and `.pluto.jl`. Pluto can open files with any extension, but the default extensions are used when searching for notebooks, or when trying to create a nice filename for something else, like the backup file.
+Standard Neptune file extensions, including `.jl` and `.pluto.jl`. Neptune can open files with any extension, but the default extensions are used when searching for notebooks, or when trying to create a nice filename for something else, like the backup file.
 """
 const pluto_file_extensions = [
     ".pluto.jl",
-    ".Pluto.jl",
+    ".Neptune.jl",
 	".nb.jl",
     ".jl",
     ".plutojl",
@@ -125,11 +125,11 @@ const pluto_file_extensions = [
 endswith_pluto_file_extension(s) = any(endswith(s, e) for e in pluto_file_extensions)
 
 """
-Extract the Julia notebook file contents from a Pluto-exported HTML file.
+Extract the Julia notebook file contents from a Neptune-exported HTML file.
 """
 function embedded_notebookfile(html_contents::AbstractString)::String
 	if !occursin("</html>", html_contents)
-		throw(ArgumentError("Pass the contents of a Pluto-exported HTML file as argument."))
+		throw(ArgumentError("Pass the contents of a Neptune-exported HTML file as argument."))
 	end
 
 	m = match(r"pluto_notebookfile.*\"data\:.*base64\,(.*)\"", html_contents)
@@ -141,9 +141,9 @@ function embedded_notebookfile(html_contents::AbstractString)::String
 end
 
 """
-Does the path end with a pluto file extension (like `.jl` or `.pluto.jl`) and does the first line say `### A Pluto.jl notebook ###`? 
+Does the path end with a pluto file extension (like `.jl` or `.pluto.jl`) and does the first line say `### A Neptune.jl notebook ###`? 
 """
-is_pluto_notebook(path::String) = endswith_pluto_file_extension(path) && readline(path) == "### A Pluto.jl notebook ###"
+is_pluto_notebook(path::String) = endswith_pluto_file_extension(path) && readline(path) == "### A Neptune.jl notebook ###"
 
 function without_pluto_file_extension(s)
     for e in pluto_file_extensions

@@ -1,18 +1,18 @@
 """
-The full list of keyword arguments that can be passed to [`Pluto.run`](@ref) (or [`Pluto.Configuration.from_flat_kwargs`](@ref)) is divided into four categories. Take a look at the documentation for:
+The full list of keyword arguments that can be passed to [`Neptune.run`](@ref) (or [`Neptune.Configuration.from_flat_kwargs`](@ref)) is divided into four categories. Take a look at the documentation for:
 
-- [`Pluto.Configuration.CompilerOptions`](@ref) defines the command line arguments for notebook `julia` processes.
-- [`Pluto.Configuration.ServerOptions`](@ref) configures the HTTP server.
-- [`Pluto.Configuration.SecurityOptions`](@ref) configures the authentication options for Pluto's HTTP server. Change with caution.
-- [`Pluto.Configuration.EvaluationOptions`](@ref) is used internally during Pluto's testing.
+- [`Neptune.Configuration.CompilerOptions`](@ref) defines the command line arguments for notebook `julia` processes.
+- [`Neptune.Configuration.ServerOptions`](@ref) configures the HTTP server.
+- [`Neptune.Configuration.SecurityOptions`](@ref) configures the authentication options for Neptune's HTTP server. Change with caution.
+- [`Neptune.Configuration.EvaluationOptions`](@ref) is used internally during Neptune's testing.
 
-Note that Pluto is designed to be _zero-configuration_, and most users should not (have to) change these settings. Most 'customization' can be achieved using Julia's wide range of packages! That being said, the available settings are useful if you are using Pluto in a special environment, such as docker, mybinder, etc.
+Note that Neptune is designed to be _zero-configuration_, and most users should not (have to) change these settings. Most 'customization' can be achieved using Julia's wide range of packages! That being said, the available settings are useful if you are using Neptune in a special environment, such as docker, mybinder, etc.
 """
 module Configuration
 
 using Configurations # https://github.com/Roger-luo/Configurations.jl
 
-import ..Pluto: tamepath
+import ..Neptune: tamepath
 
 safepwd() = try
     pwd()
@@ -22,7 +22,7 @@ catch e
 end
 
 
-# Using a ref to avoid fixing the pwd() output during the compilation phase. We don't want this value to be baked into the sysimage, because it depends on the `pwd()`. We do want to cache it, because the pwd might change while Pluto is running.
+# Using a ref to avoid fixing the pwd() output during the compilation phase. We don't want this value to be baked into the sysimage, because it depends on the `pwd()`. We do want to cache it, because the pwd might change while Neptune is running.
 const pwd_ref = Ref{String}()
 function notebook_path_suggestion()
     pwd_val = if isassigned(pwd_ref)
@@ -71,7 +71,7 @@ The HTTP server options. See [`SecurityOptions`](@ref) for additional settings.
 - `port::Union{Nothing,Integer} = $PORT_DEFAULT` When specified, this port will be used for the server.
 - `port_hint::Integer = $PORT_HINT_DEFAULT` If the other setting `port` is not specified, then this setting (`port_hint`) will be used as the starting point in finding an available port to run the server on. 
 - `launch_browser::Bool = $LAUNCH_BROWSER_DEFAULT`
-- `dismiss_update_notification::Bool = $DISMISS_UPDATE_NOTIFICATION_DEFAULT` If `false`, the Pluto frontend will check the Pluto.jl github releases for any new recommended updates, and show a notification if there are any. If `true`, this is disabled.
+- `dismiss_update_notification::Bool = $DISMISS_UPDATE_NOTIFICATION_DEFAULT` If `false`, the Neptune frontend will check the Neptune.jl github releases for any new recommended updates, and show a notification if there are any. If `true`, this is disabled.
 - `dismiss_motivational_quotes::Bool = $DISMISS_MOTIVATIONAL_QUOTES` If `true`, motivational quotes on error messages won't be shown.
 - `show_file_system::Bool = $SHOW_FILE_SYSTEM_DEFAULT`
 - `enable_ai_editor_features::Bool = $ENABLE_AI_EDITOR_FEATURES_DEFAULT` Enable or disable LLM-powered editor features
@@ -82,11 +82,11 @@ The HTTP server options. See [`SecurityOptions`](@ref) for additional settings.
 - `auto_reload_from_file_ignore_pkg::Bool = $AUTO_RELOAD_FROM_FILE_IGNORE_PKG_DEFAULT` Experimental flag, will be removed
 - `notebook::Union{Nothing,String} = $NOTEBOOK_DEFAULT` Optional path of notebook to launch at start
 - `simulated_lag::Real=$SIMULATED_LAG_DEFAULT` (internal) Extra lag to add to our server responses. Will be multiplied by `0.5 + rand()`.
-- `simulated_pkg_lag::Real=$SIMULATED_PKG_LAG_DEFAULT` (internal) Extra lag to add to operations done by Pluto's package manager. Will be multiplied by `0.5 + rand()`.
+- `simulated_pkg_lag::Real=$SIMULATED_PKG_LAG_DEFAULT` (internal) Extra lag to add to operations done by Neptune's package manager. Will be multiplied by `0.5 + rand()`.
 - `injected_javascript_data_url::String = "$INJECTED_JAVASCRIPT_DATA_URL_DEFAULT"` (internal) Optional javascript injectables to the front-end. Can be used to customize the editor, but this API is not meant for general use yet.
 - `on_event::Function = $ON_EVENT_DEFAULT`
-- `root_url::Union{Nothing,String} = $ROOT_URL_DEFAULT` This setting is used to specify the root URL of the Pluto server, but this setting is *only* used to customize the launch message (*"Go to http://localhost:1234/ in your browser"*). You can probably ignore this and use `base_url` instead.
-- `base_url::String = "$BASE_URL_DEFAULT"` This (advanced) setting is used to specify a subpath at which the Pluto server will run, it should be a path starting and ending with a '/'. E.g. with `base_url = "/hello/world/"`, the server will run at `http://localhost:1234/hello/world/`, and you edit a notebook at `http://localhost:1234/hello/world/edit?id=...`.
+- `root_url::Union{Nothing,String} = $ROOT_URL_DEFAULT` This setting is used to specify the root URL of the Neptune server, but this setting is *only* used to customize the launch message (*"Go to http://localhost:1234/ in your browser"*). You can probably ignore this and use `base_url` instead.
+- `base_url::String = "$BASE_URL_DEFAULT"` This (advanced) setting is used to specify a subpath at which the Neptune server will run, it should be a path starting and ending with a '/'. E.g. with `base_url = "/hello/world/"`, the server will run at `http://localhost:1234/hello/world/`, and you edit a notebook at `http://localhost:1234/hello/world/edit?id=...`.
 """
 @option mutable struct ServerOptions
     root_url::Union{Nothing,String} = ROOT_URL_DEFAULT
@@ -126,21 +126,21 @@ Security settings for the HTTP server.
 
     Whether the links `http://localhost:1234/open?path=/a/b/c.jl`  and `http://localhost:1234/open?url=http://www.a.b/c.jl` should be protected. 
 
-    Use `true` for almost every setup. Only use `false` if Pluto is running in a safe container (like mybinder.org), where arbitrary code execution is not a problem.
+    Use `true` for almost every setup. Only use `false` if Neptune is running in a safe container (like mybinder.org), where arbitrary code execution is not a problem.
 
 - `require_secret_for_access::Bool = $REQUIRE_SECRET_FOR_ACCESS_DEFAULT`
 
-    If `false`, you do not need to use a `secret` in the URL to access Pluto: you will be authenticated by visiting `http://localhost:1234/` in your browser. An authentication cookie is still used for access (to prevent XSS and deceptive links or an img src to `http://localhost:1234/open?url=badpeople.org/script.jl`), and is set automatically, but this request to `/` is protected by cross-origin policy.
+    If `false`, you do not need to use a `secret` in the URL to access Neptune: you will be authenticated by visiting `http://localhost:1234/` in your browser. An authentication cookie is still used for access (to prevent XSS and deceptive links or an img src to `http://localhost:1234/open?url=badpeople.org/script.jl`), and is set automatically, but this request to `/` is protected by cross-origin policy.
 
     Use `true` on a computer used by multiple people simultaneously. Only use `false` if necessary.
 
 - `warn_about_untrusted_code::Bool = $WARN_ABOUT_UNTRUSTED_CODE_DEFAULT`
 
-    Should the Pluto GUI show warning messages about executing code from an unknown source, e.g. when opening a notebook from a URL? When `false`, notebooks will still open in Safe mode, but there is no scary message when you run it.
+    Should the Neptune GUI show warning messages about executing code from an unknown source, e.g. when opening a notebook from a URL? When `false`, notebooks will still open in Safe mode, but there is no scary message when you run it.
         
 **Leave these options on `true` for the most secure setup.**
 
-Note that Pluto is quickly evolving software, maintained by designers, educators and enthusiasts — not security experts. If security is a serious concern for your application, then we recommend running Pluto inside a container and verifying the relevant security aspects of Pluto yourself.
+Note that Neptune is quickly evolving software, maintained by designers, educators and enthusiasts — not security experts. If security is a serious concern for your application, then we recommend running Neptune inside a container and verifying the relevant security aspects of Neptune yourself.
 """
 @option mutable struct SecurityOptions
     require_secret_for_open_links::Bool = REQUIRE_SECRET_FOR_OPEN_LINKS_DEFAULT
@@ -148,7 +148,7 @@ Note that Pluto is quickly evolving software, maintained by designers, educators
     warn_about_untrusted_code::Bool = WARN_ABOUT_UNTRUSTED_CODE_DEFAULT
 end
 
-const RUN_NOTEBOOK_ON_LOAD_DEFAULT = true
+const RUN_NOTEBOOK_ON_LOAD_DEFAULT = false
 const WORKSPACE_USE_DISTRIBUTED_DEFAULT = true
 const WORKSPACE_USE_DISTRIBUTED_STDLIB_DEFAULT = nothing
 const LAZY_WORKSPACE_CREATION_DEFAULT = false
@@ -158,10 +158,10 @@ const WORKSPACE_CUSTOM_STARTUP_EXPR_DEFAULT = nothing
 """
     EvaluationOptions([; kwargs...])
 
-Options to change Pluto's evaluation behaviour during internal testing and by downstream packages.
+Options to change Neptune's evaluation behaviour during internal testing and by downstream packages.
 These options are not intended to be changed during normal use.
 
-- `run_notebook_on_load::Bool = $RUN_NOTEBOOK_ON_LOAD_DEFAULT` When running a notebook (not in Safe mode), should all cells evaluate immediately? Warning: this is only for internal testing, and using it will lead to unexpected behaviour and hard-to-reproduce notebooks. It's not the Pluto way!
+- `run_notebook_on_load::Bool = $RUN_NOTEBOOK_ON_LOAD_DEFAULT` When running a notebook (not in Safe mode), should all cells evaluate immediately? Warning: this is only for internal testing, and using it will lead to unexpected behaviour and hard-to-reproduce notebooks. It's not the Neptune way!
 - `workspace_use_distributed::Bool = $WORKSPACE_USE_DISTRIBUTED_DEFAULT` Whether to start notebooks in a separate process. Setting this to `false` is only meant for very advanced users, many features will be broken or behave unexpectedly (inlcuding anything related to package loading or interrupts).
 - `workspace_use_distributed_stdlib::Bool? = $WORKSPACE_USE_DISTRIBUTED_STDLIB_DEFAULT` Should we use the Distributed stdlib to run processes, instead of the new Malt.jl runner? You can use `true` to get the old behaviour. `nothing` means: determine automatically (which is currently `false`).
 - `lazy_workspace_creation::Bool = $LAZY_WORKSPACE_CREATION_DEFAULT`
@@ -274,7 +274,7 @@ These options will be passed as command line argument to newly launched processe
 end
 
 """
-Collection of all settings that configure a Pluto session. 
+Collection of all settings that configure a Neptune session. 
 
 `ServerSession` contains a `Configuration`.
 """

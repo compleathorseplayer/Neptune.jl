@@ -58,7 +58,7 @@ during `timeout` seconds.
 The throttled function will run as much as it can, without ever
 going more than once per `wait` duration.
 
-This throttle is 'leading' and has some other properties that are specifically designed for our use in Pluto, see the tests.
+This throttle is 'leading' and has some other properties that are specifically designed for our use in Neptune, see the tests.
 
 Inspired by FluxML
 See: https://github.com/FluxML/Flux.jl/blob/8afedcd6723112ff611555e350a8c84f4e1ad686/src/utils.jl#L662

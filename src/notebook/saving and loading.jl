@@ -2,7 +2,7 @@ import TOML
 import UUIDs: UUID
 import .TempDirInScratch
 
-const _notebook_header = "### A Pluto.jl notebook ###"
+const _notebook_header = "### A Neptune.jl notebook ###"
 const _notebook_metadata_prefix = "#> "
 # We use a creative delimiter to avoid accidental use in code
 # so don't get inspired to suddenly use these in your code!
@@ -27,7 +27,7 @@ const _mtoml_cell_id = UUID(2)
 """
 Save the notebook to `io`, `file` or to `notebook.path`.
 
-In the produced file, cells are not saved in the notebook order. If `notebook.topology` is up-to-date, I will save cells in _topological order_. This guarantees that you can run the notebook file outside of Pluto, with `julia my_notebook.jl`.
+In the produced file, cells are not saved in the notebook order. If `notebook.topology` is up-to-date, I will save cells in _topological order_. This guarantees that you can run the notebook file outside of Neptune, with `julia my_notebook.jl`.
 
 Have a look at our [JuliaCon 2020 presentation](https://youtu.be/IAF8DjrQSSk?t=1085) to learn more!
 """
@@ -46,14 +46,14 @@ function save_notebook(io::IO, notebook::Notebook)
     end
 
     # (Anything between the version string and the first UUID delimiter will be ignored by the notebook loader.)
-    # We insert these two imports because they are also imported by default in the Pluto session. You might use these packages in your code, so we add the imports to the file, so the file can run as a script.
+    # We insert these two imports because they are also imported by default in the Neptune session. You might use these packages in your code, so we add the imports to the file, so the file can run as a script.
     println(io, "")
     println(io, "using Markdown")
     println(io, "using InteractiveUtils")
     # Super Advanced Code Analysis™ to add the @bind macro to the saved file if it's used somewhere.
     if any(!must_be_commented_in_file(c) && occursin("@bind", c.code) for c in notebook.cells)
         println(io, "")
-        println(io, "# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).")
+        println(io, "# This Neptune notebook uses @bind for interactivity. When running this notebook outside of Neptune, the following 'mock version' of @bind gives bound variables a default value (instead of an error).")
         println(io, PlutoRunner.fake_bind)
     end
     println(io)
@@ -82,7 +82,7 @@ function save_notebook(io::IO, notebook::Notebook)
             end
         end
         
-        # Do one little string replacement to make it impossible to use the Pluto cell delimiter inside of actual cell code. If this would happen, then the notebook file cannot load correctly. So we just remove it from your code (sorry!)
+        # Do one little string replacement to make it impossible to use the Neptune cell delimiter inside of actual cell code. If this would happen, then the notebook file cannot load correctly. So we just remove it from your code (sorry!)
         current_code = replace(c.code, _cell_id_delimiter => "# ")
 
         if must_be_commented_in_file(c)
@@ -170,14 +170,14 @@ function _read_notebook_metadata!(@nospecialize(io::IO))
             if occursin("<!DOCTYPE", firstline) || occursin("<html", firstline)
                 """File is an HTML file, not a notebook file. Open the file directly, and click the "Edit or run" button to get the notebook file."""
             else
-                "File is not a Pluto.jl notebook."
+                "File is not a Neptune.jl notebook."
             end
         )
     end
 
     file_VERSION_STR = readline(io)[3:end]
     if file_VERSION_STR != PLUTO_VERSION_STR
-        # @info "Loading a notebook saved with Pluto $(file_VERSION_STR). This is Pluto $(PLUTO_VERSION_STR)."
+        # @info "Loading a notebook saved with Neptune $(file_VERSION_STR). This is Neptune $(PLUTO_VERSION_STR)."
     end
 
     # Read all remaining file contents before the first cell delimiter.
@@ -366,7 +366,7 @@ end
 
 # BACKUPS
 
-"Create a backup of the given file, load the file as a .jl Pluto notebook, save the loaded notebook, compare the two files, and delete the backup of the newly saved file is mostly equal to the backup."
+"Create a backup of the given file, load the file as a .jl Neptune notebook, save the loaded notebook, compare the two files, and delete the backup of the newly saved file is mostly equal to the backup."
 function load_notebook(path::String; disable_writing_notebook_files::Bool=false)::Notebook
     backup_path = backup_filename(path)
     # local backup_num = 1
@@ -391,7 +391,7 @@ function load_notebook(path::String; disable_writing_notebook_files::Bool=false)
     disable_writing_notebook_files || if only_versions_or_lineorder_differ(path, backup_path)
         rm(backup_path)
     else
-        @warn "Old Pluto notebook might not have loaded correctly. Backup saved to: " backup_path
+        @warn "Old Neptune notebook might not have loaded correctly. Backup saved to: " backup_path
     end
 
     loaded

@@ -74,7 +74,7 @@ end
 
 const found_is_pluto_dev = Ref{Union{Bool, Nothing}}()
 """
-Is the Pluto package `dev`ed? Returns `false` for normal Pluto installation from the registry.
+Is the Neptune package `dev`ed? Returns `false` for normal Neptune installation from the registry.
 """
 function is_pluto_dev()
     if found_is_pluto_dev[] !== nothing
@@ -88,7 +88,7 @@ function is_pluto_dev()
         else
             deps = Pkg.dependencies()
 
-            p_index = findfirst(p -> p.name == "Pluto", deps)
+            p_index = findfirst(p -> p.name == "Neptune", deps)
             p = deps[p_index]
 
             p.is_tracking_path

@@ -1,17 +1,17 @@
 using PrecompileTools: PrecompileTools
 
 PrecompileTools.@compile_workload begin
-    nb = Pluto.Notebook([
-        Pluto.Cell("""md"Hello *world*" """)
-        Pluto.Cell("""[f(x)]""")
-        Pluto.Cell("""x = 1""")
-        Pluto.Cell(
+    nb = Neptune.Notebook([
+        Neptune.Cell("""md"Hello *world*" """)
+        Neptune.Cell("""[f(x)]""")
+        Neptune.Cell("""x = 1""")
+        Neptune.Cell(
             """
             function f(z::Integer)
                 z / 123
             end
             """)
-        Pluto.Cell(
+        Neptune.Cell(
             """
             "asdf"
             begin
@@ -31,30 +31,30 @@ PrecompileTools.@compile_workload begin
         )
     ])
     let
-        topology = Pluto.updated_topology(nb.topology, nb, nb.cells)
+        topology = Neptune.updated_topology(nb.topology, nb, nb.cells)
         # Our reactive sorting algorithm.
-        Pluto.topological_order(topology, topology.cell_order)
+        Neptune.topological_order(topology, topology.cell_order)
     end
 
     # let
     #     io = IOBuffer()
     #     # Notebook file format.
-    #     Pluto.save_notebook(io, nb)
+    #     Neptune.save_notebook(io, nb)
     #     seekstart(io)
-    #     Pluto.load_notebook_nobackup(io, "whatever.jl")
+    #     Neptune.load_notebook_nobackup(io, "whatever.jl")
     # end
 
     let
-        state1 = Pluto.notebook_to_js(nb)
-        state2 = Pluto.notebook_to_js(nb)
+        state1 = Neptune.notebook_to_js(nb)
+        state2 = Neptune.notebook_to_js(nb)
         # MsgPack
-        Pluto.unpack(Pluto.pack(state1))
+        Neptune.unpack(Neptune.pack(state1))
         # State diffing
-        Pluto.Firebasey.diff(state1, state2)
+        Neptune.Firebasey.diff(state1, state2)
     end
 
-    s = Pluto.ServerSession(;
-        options=Pluto.Configuration.from_flat_kwargs(
+    s = Neptune.ServerSession(;
+        options=Neptune.Configuration.from_flat_kwargs(
             disable_writing_notebook_files=true,
             workspace_use_distributed=false,
             auto_reload_from_file=false,
@@ -68,4 +68,4 @@ PrecompileTools.@compile_workload begin
 end
 
 using PrecompileSignatures: @precompile_signatures
-@precompile_signatures(Pluto)
+@precompile_signatures(Neptune)

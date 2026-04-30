@@ -111,6 +111,9 @@ function run_reactive_core!(
         indirectly_deactivated,
         keys(new_order.errable)
     )::Vector{Cell} # TODO: think if old error cell order matters
+    # Neptune: non-reactive mode — only execute explicitly-requested cells, not downstream dependents
+    roots_set = Set(roots)
+    to_run = filter(c -> c ∈ roots_set, to_run)
 
 
     # change the bar on the sides of cells to "queued"

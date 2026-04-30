@@ -55,7 +55,7 @@ end
 """
 Returns wether the module is a pluto workspace or any of its ancestors is.
 
-For example, writing the following julia code in Pluto:
+For example, writing the following julia code in Neptune:
 
 ```julia
 import Plots

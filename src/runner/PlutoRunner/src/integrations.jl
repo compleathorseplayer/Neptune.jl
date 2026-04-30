@@ -89,7 +89,7 @@ const integrations = Integration[
                     format_output_default(el, io)
                 end
 
-                # ugliest code in Pluto:
+                # ugliest code in Neptune:
 
                 # not a map(row) because it needs to be a Vector
                 # not enumerate(rows) because of some silliness

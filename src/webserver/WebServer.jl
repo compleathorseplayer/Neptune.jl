@@ -32,16 +32,16 @@ function swallow_exception(f, exception_type::Type{T}) where {T}
 end
 
 """
-    Pluto.run()
+    Neptune.run()
 
-Start Pluto!
+Start Neptune!
 
 ## Keyword arguments
-You can configure some of Pluto's more technical behaviour using keyword arguments, but this is mostly meant to support testing and strange setups like Docker. If you want to do something exciting with Pluto, you can probably write a creative notebook to do it!
+You can configure some of Neptune's more technical behaviour using keyword arguments, but this is mostly meant to support testing and strange setups like Docker. If you want to do something exciting with Neptune, you can probably write a creative notebook to do it!
 
-    Pluto.run(; kwargs...)
+    Neptune.run(; kwargs...)
 
-For the full list, see the [`Pluto.Configuration`](@ref) module. Some **common parameters**:
+For the full list, see the [`Neptune.Configuration`](@ref) module. Some **common parameters**:
 
 - `launch_browser`: Optional. Whether to launch the system default browser. Disable this on SSH and such.
 - `host`: Optional. The default `host` is `"127.0.0.1"`. For wild setups like Docker and heroku, you might need to change this to `"0.0.0.0"`.
@@ -51,7 +51,7 @@ For the full list, see the [`Pluto.Configuration`](@ref) module. Some **common p
 ## Technobabble
 
 This will start the static HTTP server and a WebSocket server. The server runs _synchronously_ (i.e. blocking call) on `http://[host]:[port]/`.
-Pluto notebooks can be started from the main menu in the web browser.
+Neptune notebooks can be started from the main menu in the web browser.
 """
 function run(; kwargs...)
     options = Configuration.from_flat_kwargs(; kwargs...)
@@ -74,13 +74,13 @@ function run(host::String, port::Union{Nothing,Integer} = nothing; kwargs...)
 end
 
 function run(port::Integer; kwargs...)
-    @error "Oopsie! This is the old command to launch Pluto. The new command is:
+    @error "Oopsie! This is the old command to launch Neptune. The new command is:
 
-        Pluto.run()
+        Neptune.run()
 
     without the port as argument - it will choose one automatically. If you need to specify the port, use:
 
-        Pluto.run(port=$port)
+        Neptune.run(port=$port)
     "
 end
 
@@ -97,7 +97,7 @@ function port_serversocket(hostIP::Sockets.IPAddr, favourite_port, port_hint)
         try
             serversocket = Sockets.listen(hostIP, port)
         catch e
-            error("Cannot listen on port $port. It may already be in use, or you may not have sufficient permissions. Use Pluto.run() to automatically select an available port.")
+            error("Cannot listen on port $port. It may already be in use, or you may not have sufficient permissions. Use Neptune.run() to automatically select an available port.")
         end
     end
     return port, serversocket
@@ -133,7 +133,7 @@ end
 """
     run(session::ServerSession)
 
-Specifiy the [`Pluto.ServerSession`](@ref) to run the web server on, which includes the configuration. Passing a session as argument allows you to start the web server with some notebooks already running. See [`SessionActions`](@ref) to learn more about manipulating a `ServerSession`.
+Specifiy the [`Neptune.ServerSession`](@ref) to run the web server on, which includes the configuration. Passing a session as argument allows you to start the web server with some notebooks already running. See [`SessionActions`](@ref) to learn more about manipulating a `ServerSession`.
 """
 function run(session::ServerSession)
     Base.wait(run!(session))
@@ -172,7 +172,7 @@ function run!(session::ServerSession)
 
     on_shutdown() = @sync begin
         # Triggered by HTTP.jl
-        @info("\nClosing Pluto... Restart Julia for a fresh session. \n\nHave a nice day! 🎈\n\n")
+        @info("\nClosing Neptune... Restart Julia for a fresh session. \n\nHave a nice day! 🎈\n\n")
         # TODO: put do_work tokens back 
         @async swallow_exception(() -> close(serversocket), Base.IOError)
         for client in values(session.connected_clients)
@@ -303,7 +303,7 @@ function run!(session::ServerSession)
                 # https://github.com/fonsp/Pluto.jl/pull/722
                 HTTP.setheader(http, "Referrer-Policy" => "same-origin")
                 # https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#:~:text=is%202%20minutes.-,14.38%20Server
-                HTTP.setheader(http, "Server" => "Pluto.jl/$(PLUTO_VERSION_STR[2:end]) Julia/$(JULIA_VERSION_STR[2:end])")
+                HTTP.setheader(http, "Server" => "Neptune.jl/$(PLUTO_VERSION_STR[2:end]) Julia/$(JULIA_VERSION_STR[2:end])")
                 HTTP.startwrite(http)
                 write(http, request.response.body)
             catch e
@@ -331,13 +331,13 @@ function run!(session::ServerSession)
     else
         @info("\nGo to $address in your browser to start writing ~ have fun!\n\n")
     end
-    @info("\nPress Ctrl+C in this terminal to stop Pluto\n\n")
+    @info("\nPress Ctrl+C in this terminal to stop Neptune\n\n")
 
     # Trigger ServerStartEvent with server details
     try_event_call(session, ServerStartEvent(address, port))
 
     if frontend_directory() == "frontend"
-        @info("It looks like you are developing the Pluto package, using the unbundled frontend...")
+        @info("It looks like you are developing the Neptune package, using the unbundled frontend...")
     end
 
     # Start this in the background, so that the first notebook launch (which will trigger registry update) will be faster

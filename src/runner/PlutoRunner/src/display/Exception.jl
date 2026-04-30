@@ -40,7 +40,7 @@ function format_output(val::CapturedException; context=default_iocontext)
     end
 
     if PRETTY_STACKTRACES[]
-        ## We hide the part of the stacktrace that belongs to Pluto's evalling of user code.
+        ## We hide the part of the stacktrace that belongs to Neptune's evalling of user code.
         stack = [s for (s, _) in val.processed_bt]
 
         # function_wrap_index = findfirst(f -> occursin("function_wrapped_cell", String(f.func)), stack)

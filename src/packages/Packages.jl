@@ -117,7 +117,7 @@ function sync_nbpkg_core(
         # We remember which Pkg.Types.PreserveLevel was used. If it's too low, we will recommend/require a notebook restart later.
         local used_tier = first(tiers)
         if !can_skip
-            # We have a global lock, `pkg_token`, on Pluto-managed Pkg operations, which is shared between all notebooks. If this lock is not ready right now then that means that we are going to wait at the `withtoken(pkg_token)` line below. 
+            # We have a global lock, `pkg_token`, on Neptune-managed Pkg operations, which is shared between all notebooks. If this lock is not ready right now then that means that we are going to wait at the `withtoken(pkg_token)` line below. 
             # We want to report that we are waiting, with a best guess of why.
             wait_business = if !isready(pkg_token)
                 reg = !PkgCompat._updated_registries_compat[]
@@ -400,7 +400,7 @@ end
 
 function writebackup(notebook::Notebook)
     backup_path = backup_filename(notebook.path)
-    Pluto.readwrite(notebook.path, backup_path)
+    Neptune.readwrite(notebook.path, backup_path)
 
     @info "Backup saved to" backup_path
 
@@ -417,7 +417,7 @@ function _instantiate(notebook::Notebook, iolistener::IOListener)
         # update registries if this is the first time
         PkgCompat.update_registries(; force=false)
         
-        # Pkg.instantiate assumes that the environment to be instantiated is active, so we will have to modify the LOAD_PATH of this Pluto server
+        # Pkg.instantiate assumes that the environment to be instantiated is active, so we will have to modify the LOAD_PATH of this Neptune server
         # We could also run the Pkg calls on the notebook process, but somehow I think that doing it on the server is more charming, though it requires this workaround.
         env_dir = PkgCompat.env_dir(notebook.nbpkg_ctx)
         pushfirst!(LOAD_PATH, env_dir)
@@ -528,7 +528,7 @@ function edit_project_toml(
     
     backup && save && writebackup(notebook)
     
-    @assert notebook.nbpkg_ctx !== nothing "This notebook is not using the Pluto package manager."
+    @assert notebook.nbpkg_ctx !== nothing "This notebook is not using the Neptune package manager."
     
     p = PkgCompat.project_file(notebook)
     @assert original_project_toml == read(p, String) "The notebook environment was modified by another process during your edits. Please try again."

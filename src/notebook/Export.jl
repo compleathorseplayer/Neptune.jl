@@ -12,7 +12,7 @@ const frontend_dist = "frontend-dist"
 const frontend_dist_offline = "frontend-dist-offline"
 
 if cdn_version_override !== nothing
-    @warn "Reminder to fonsi: Using a development version of Pluto for CDN assets. The binder button might not work. You should not see this on a released version of Pluto." cdn_version_override
+    @warn "Reminder to fonsi: Using a development version of Neptune for CDN assets. The binder button might not work. You should not see this on a released version of Neptune." cdn_version_override
 end
 
 cdnified_editor_html(; kwargs...) = cdnified_html("editor.html"; kwargs...)
@@ -34,9 +34,9 @@ function cdnified_html(filename::AbstractString;
             try
                 original = read(project_relative_path(distdir, filename), String)
                 
-                cdn_root = "https://cdn.jsdelivr.net/gh/JuliaPluto/Pluto.jl@$(string(PLUTO_VERSION))/$(distdir)/"
+                cdn_root = "https://cdn.jsdelivr.net/gh/JuliaPluto/Neptune.jl@$(string(PLUTO_VERSION))/$(distdir)/"
 
-                @debug "Using CDN for Pluto assets:" cdn_root
+                @debug "Using CDN for Neptune assets:" cdn_root
 
                 replace_with_cdn(original) do url
                     contains(string(url), "escape_txt_for_html") && return url
@@ -60,18 +60,18 @@ function cdnified_html(filename::AbstractString;
                     end
                 end
             catch e
-                get(ENV, "JULIA_PLUTO_IGNORE_CDN_BUNDLE_WARNING", "false") == "true" || @warn "Could not use bundled CDN version of $(filename). You should only see this message if you are using a fork or development branch of Pluto." exception=(e,catch_backtrace()) maxlog=3
+                get(ENV, "JULIA_PLUTO_IGNORE_CDN_BUNDLE_WARNING", "false") == "true" || @warn "Could not use bundled CDN version of $(filename). You should only see this message if you are using a fork or development branch of Neptune." exception=(e,catch_backtrace()) maxlog=3
                 nothing
             end
         end,
         let
             original = read(project_relative_path("frontend", filename), String)
 
-            cdn_root = something(pluto_cdn_root, "https://cdn.jsdelivr.net/gh/JuliaPluto/Pluto.jl@$(something(cdn_version_override, string(something(version, PLUTO_VERSION))))/frontend/")
+            cdn_root = something(pluto_cdn_root, "https://cdn.jsdelivr.net/gh/JuliaPluto/Neptune.jl@$(something(cdn_version_override, string(something(version, PLUTO_VERSION))))/frontend/")
 
-            @debug "Using CDN for Pluto assets:" cdn_root
+            @debug "Using CDN for Neptune assets:" cdn_root
             if offline_bundle
-                @warn("Trying to use bundled assets for $filename. You can only use offline_bundle for Pluto releases, which has a `frontend-dist-offline` folder. If you _really_ need this, contact us.")
+                @warn("Trying to use bundled assets for $filename. You can only use offline_bundle for Neptune releases, which has a `frontend-dist-offline` folder. If you _really_ need this, contact us.")
             end
             replace_with_cdn(original) do url
                 URIs.resolvereference(cdn_root, url) |> string
@@ -120,7 +120,7 @@ function prefetch_statefile_html(statefile_js::AbstractString)
 end
 
 """
-This function takes the `editor.html` file from Pluto's source code, and uses string replacements to insert custom data. By inserting a statefile (and more), you can create an HTML file that will display a notebook when opened: this is how the Static HTML export works.
+This function takes the `editor.html` file from Neptune's source code, and uses string replacements to insert custom data. By inserting a statefile (and more), you can create an HTML file that will display a notebook when opened: this is how the Static HTML export works.
 
 See [PlutoSliderServer.jl](https://github.com/JuliaPluto/PlutoSliderServer.jl) if you are interested in exporting notebooks programatically.
 """
@@ -281,7 +281,7 @@ function replace_with_cdn(cdnify::Function, s::String, idx::Integer=1; lang::Sym
 end
 
 """
-Generate a custom index.html that is designed to display a custom set of featured notebooks, without the file UI or Pluto logo. This is to be used by [PlutoSliderServer.jl](https://github.com/JuliaPluto/PlutoSliderServer.jl) to show a fancy index page.
+Generate a custom index.html that is designed to display a custom set of featured notebooks, without the file UI or Neptune logo. This is to be used by [PlutoSliderServer.jl](https://github.com/JuliaPluto/PlutoSliderServer.jl) to show a fancy index page.
 """
 function generate_index_html(;
     version::Union{Nothing,VersionNumber,AbstractString}=nothing, 
