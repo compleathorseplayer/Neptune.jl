@@ -165,7 +165,7 @@ save_notebook(notebook::Notebook) = save_notebook(notebook, notebook.path)
 function _read_notebook_metadata!(@nospecialize(io::IO))
     firstline = String(readline(io))::String
 
-    if firstline != _notebook_header
+    if firstline != _notebook_header && firstline != "### A Pluto.jl notebook ###"
         error(
             if occursin("<!DOCTYPE", firstline) || occursin("<html", firstline)
                 """File is an HTML file, not a notebook file. Open the file directly, and click the "Edit or run" button to get the notebook file."""

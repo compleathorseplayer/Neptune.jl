@@ -40,7 +40,7 @@ const PLUTO_VERSION = pkgversion(@__MODULE__)
 const PLUTO_VERSION_STR = "v$(string(PLUTO_VERSION))"
 const JULIA_VERSION_STR = "v$(string(VERSION))"
 
-import PlutoDependencyExplorer: PlutoDependencyExplorer, TopologicalOrder, NotebookTopology, ExprAnalysisCache, ImmutableVector, ExpressionExplorerExtras, topological_order, all_cells, disjoint, where_assigned, where_referenced
+import PlutoDependencyExplorer: PlutoDependencyExplorer, TopologicalOrder, NotebookTopology, ExprAnalysisCache, ImmutableVector, ExpressionExplorerExtras, topological_order, all_cells, disjoint, where_assigned, where_referenced, DEFAULT_PRECEDENCE_HEURISTIC, FunctionName
 using ExpressionExplorer
 
 include("./notebook/path helpers.jl")
