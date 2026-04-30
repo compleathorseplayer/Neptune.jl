@@ -894,9 +894,15 @@ nav#at_the_top h1 {
 
 nav#at_the_top img#logo-small,
 nav#at_the_top img#logo-big {
-    height: 39px;
-    margin-bottom: -8px;
-    filter: var(--image-filters);
+    display: none;
+}
+
+nav#at_the_top h1::before {
+    content: "🔱 Neptune.jl";
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--pluto-logo-color, #6b6;);
 }
 
 nav#at_the_top img#logo-small {
@@ -905,7 +911,7 @@ nav#at_the_top img#logo-small {
 
 @media (max-width: 800px) {
     nav#at_the_top img#logo-small {
-        display: unset;
+        display: none;
     }
     nav#at_the_top img#logo-big {
         display: none;
