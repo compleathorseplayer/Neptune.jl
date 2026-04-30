@@ -215,7 +215,7 @@ export const add_bonds_listener = (bond_nodes, on_bond_change, known_values, inv
                 // wait for a new input value. If a value is ready, then this promise resolves immediately
                 const to_send = await transformed_val(await val)
 
-                // send to the Pluto back-end (have a look at set_bond in Editor.js)
+                // send to the Neptune back-end (have a look at set_bond in Editor.js)
                 // await the setter to avoid collisions
                 //TODO : get this from state
                 await init_promise

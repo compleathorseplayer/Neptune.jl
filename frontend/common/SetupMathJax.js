@@ -11,11 +11,11 @@ export const setup_mathjax = () => {
 
     const deprecated = () =>
         console.error(
-            "Pluto.jl: Pluto loads MathJax 3 globally, but a MathJax 2 function was called. The two version can not be used together on the same web page."
+            "Neptune.jl: Neptune loads MathJax 3 globally, but a MathJax 2 function was called. The two version can not be used together on the same web page."
         )
     const twowasloaded = () =>
         console.error(
-            "Pluto.jl: MathJax 2 is already loaded in this page, but Pluto wants to load MathJax 3. Packages that import MathJax 2 in their html display will break Pluto's ability to render latex."
+            "Neptune.jl: MathJax 2 is already loaded in this page, but Neptune wants to load MathJax 3. Packages that import MathJax 2 in their html display will break Neptune's ability to render latex."
         )
 
     // @ts-ignore

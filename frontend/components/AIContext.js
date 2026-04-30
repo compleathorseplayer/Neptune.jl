@@ -166,7 +166,7 @@ ${upstream_cells.map((cid) => format_code(notebook.cell_inputs[cid].code)).join(
     const prompt = `${userQuestion}
 
 <pluto-ai-context>
-To help me answer my question, here is some auto-generated context. The code is from a Pluto Julia notebook. We are concerned with one specific cell in the notebook, called "the current cell". And you will get additional context.
+To help me answer my question, here is some auto-generated context. The code is from a Neptune Julia notebook. We are concerned with one specific cell in the notebook, called "the current cell". And you will get additional context.
 
 When suggesting new code, give each cell its own code block, and keep global variables names as they are.
 

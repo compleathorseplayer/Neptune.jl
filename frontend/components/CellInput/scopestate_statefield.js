@@ -246,7 +246,7 @@ const explore_import_statement = (cursor, doc) => {
         // Skip the 'import' or 'using' keyword
         while (cursor.nextSibling()) {
             if (cursor.name === "SelectedImport") {
-                // `import Pluto: wow, bar` or `using Pluto: wow, bar`
+                // `import Neptune: wow, bar` or `using Neptune: wow, bar`
                 // Only items after `:` define variables
                 let sawColon = false
                 if (cursor.firstChild()) {
@@ -263,7 +263,7 @@ const explore_import_statement = (cursor, doc) => {
                     cursor.parent()
                 }
             } else if (cursor.name === "ImportPath") {
-                // `import Pluto` or `import Pluto.wow`
+                // `import Neptune` or `import Neptune.wow`
                 // The last identifier is the defined variable
                 const id = get_last_identifier_in_import_path(cursor)
                 if (id) found.push(id)

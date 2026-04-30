@@ -182,7 +182,7 @@ export const slider_server_actions = ({ setStatePromise, launch_params, actions,
             try {
                 const url = base + "staterequest/" + hash + "/"
 
-                // https://github.com/fonsp/Pluto.jl/pull/3158
+                // https://github.com/fonsp/Neptune.jl/pull/3158
                 let add_explicits = async (url) => {
                     let u = new URL(url, window.location.href)
                     // We can skip this if all bonds are explicit:

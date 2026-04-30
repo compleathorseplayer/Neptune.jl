@@ -275,7 +275,7 @@ let execute_dynamic_function = async ({ environment, code }) => {
  *
  * One case where nesting occurs is when using PlutoRunner.embed_display. In its HTML render, it outputs a `<script>`, which will render a `<pluto-display>` element with content. If that content contains a `<script>` tag, then it will be executed during the execution of the original script, etc.
  *
- * See https://github.com/fonsp/Pluto.jl/pull/2329
+ * See https://github.com/fonsp/Neptune.jl/pull/2329
  */
 let nested_script_execution_level = 0
 
@@ -283,7 +283,7 @@ let nested_script_execution_level = 0
  * Runs the code `fn` with `document.currentScript` being set to a new script_element thats
  * is placed on the page where `script_element` was.
  *
- * Why? So we can run the javascript code with extra cool Pluto variables and return value,
+ * Why? So we can run the javascript code with extra cool Neptune variables and return value,
  * but still have a script at the same position as `document.currentScript`.
  * This way you can do `document.currentScript.insertBefore()` and have it work!
  *
@@ -615,7 +615,7 @@ export let RawHTMLContainer = ({ body, className = "", persist_js_state = false,
     return html`<div dir="auto" class="raw-html-wrapper ${className}" ref=${container_ref}></div>`
 }
 
-// https://github.com/fonsp/Pluto.jl/issues/1692
+// https://github.com/fonsp/Neptune.jl/issues/1692
 const ENABLE_CM_HIGHLIGHTING = false
 
 /** @param {HTMLElement} code_element */

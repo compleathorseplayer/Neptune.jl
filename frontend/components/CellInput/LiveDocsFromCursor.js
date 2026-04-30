@@ -285,7 +285,7 @@ export let get_selected_doc_from_state = (/** @type {EditorState} */ state, verb
                 // Putting in a special case for ternary expressions (a ? b : c) because I think
                 // these might be confusing to new users so I want to extra show them docs about it.
                 // Sad thing is, our current docs think that `?:` means "give me info about :", so
-                // TODO Make Pluto treat `?` prefixes (or specifically `?:`) as normal identifiers
+                // TODO Make Neptune treat `?` prefixes (or specifically `?:`) as normal identifiers
                 if (cursor.name === "TernaryExpression") {
                     return "??:"
                 }

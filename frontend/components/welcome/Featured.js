@@ -48,7 +48,7 @@ import { t, th } from "../../common/lang.js"
 const placeholder_data = [
     {
         title: "Featured Notebooks",
-        description: "These notebooks from the Julia community show off what you can do with Pluto. Give it a try, you might learn something new!",
+        description: "These notebooks from the Julia community show off what you can do with Neptune. Give it a try, you might learn something new!",
         collections: [
             {
                 title: "Loading...",
@@ -63,7 +63,7 @@ const placeholder_data = [
 const offline_html = html`
     <div class="featured-source">
         <h1>${placeholder_data[0].title}</h1>
-        <p>Here are a couple of notebooks to get started with Pluto.jl:</p>
+        <p>Here are a couple of notebooks to get started with Neptune.jl:</p>
         <ul>
             <li>1. <a href="sample/Getting%20started.jl">Getting started</a></li>
             <li>2. <a href="sample/Markdown.jl">Markdown</a></li>

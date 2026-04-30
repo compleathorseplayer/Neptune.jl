@@ -3,7 +3,7 @@ export const new_update_message = (client) =>
         .then((releases) => {
             const local = client.version_info.pluto
             const latest = releases[releases.length - 1].tag_name
-            console.log(`Pluto version ${local}`)
+            console.log(`Neptune version ${local}`)
             const local_index = releases.findIndex((r) => r.tag_name === local)
             if (local_index !== -1) {
                 const updates = releases.slice(local_index + 1)
@@ -12,11 +12,11 @@ export const new_update_message = (client) =>
                     console.log(`Newer version ${latest} is available`)
                     if (!client.version_info.dismiss_update_notification) {
                         alert(
-                            "A new version of Pluto.jl is available! 🎉\n\n    You have " +
+                            "A new version of Neptune.jl is available! 🎉\n\n    You have " +
                                 local +
                                 ", the latest is " +
                                 latest +
-                                '.\n\nYou can update Pluto.jl using the julia package manager:\n    import Pkg; Pkg.update("Pluto")\nAfterwards, exit Pluto.jl and restart julia.'
+                                '.\n\nYou can update Neptune.jl using the julia package manager:\n    import Pkg; Pkg.update("Neptune")\nAfterwards, exit Neptune.jl and restart julia.'
                         )
                     }
                 }
@@ -28,7 +28,7 @@ export const new_update_message = (client) =>
         })
 
 const fetch_pluto_releases = async () => {
-    let response = await fetch("https://api.github.com/repos/JuliaPluto/Pluto.jl/releases", {
+    let response = await fetch("https://api.github.com/repos/JuliaPluto/Neptune.jl/releases", {
         method: "GET",
         mode: "cors",
         cache: "no-cache",

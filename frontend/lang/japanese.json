@@ -143,7 +143,7 @@
     "t_enable_in_file_action": "ファイル内で有効化",
     "t_enable_in_file_action_description": "このセルは現在、ノートブックファイルにJuliaコメントとしてコメントアウトされています。有効にするにはここをクリックしてください",
     "t_disable_in_file_action": "ファイル内で無効化",
-    "t_disable_in_file_action_description": "このコードをJuliaファイルにコメントアウトしてノートブックファイルに保存します。こうすることで、Plutoの外部でノートブックをスクリプトとして実行しても、このコードは実行されなくなります。",
+    "t_disable_in_file_action_description": "このコードをJuliaファイルにコメントアウトしてノートブックファイルに保存します。こうすることで、Neptuneの外部でノートブックをスクリプトとして実行しても、このコードは実行されなくなります。",
     "t_interrupt_cell": "",
     "t_save_cell": "",
     "t_jump_cell": "",
@@ -277,7 +277,7 @@
         "waiting_for_others": "Waiting for other notebooks to finish package operations",
         "backend_launch": "Connecting to backend",
         "backend_requesting": "Requesting a worker",
-        "backend_created": "Starting Pluto server",
+        "backend_created": "Starting Neptune server",
         "backend_responded": "Opening notebook file",
         "backend_notebook_running": "Switching to live editing"
     },

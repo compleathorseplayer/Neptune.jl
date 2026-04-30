@@ -8,7 +8,7 @@ import hljs_juliarepl from "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@
 hljs.registerLanguage("julia", hljs_julia)
 hljs.registerLanguage("julia-repl", hljs_juliarepl)
 
-// Attach the highlighter object to the window to allow custom highlighting from the frontend. See https://github.com/fonsp/Pluto.jl/pull/2244
+// Attach the highlighter object to the window to allow custom highlighting from the frontend. See https://github.com/fonsp/Neptune.jl/pull/2244
 //@ts-ignore
 window.hljs = hljs
 

@@ -7,7 +7,7 @@ const detectNotebook = (inputtext) => {
     // Add a newline in the end for the case user didn't copy it
     // That helps if the user copied up to the last line of the cell order
     const text = `${inputtext}\n`.replace("\r\n", "\n")
-    const from = text.indexOf("### A Pluto.jl notebook ###")
+    const from = text.indexOf("### A Neptune.jl notebook ###")
     const cellsfound = text.match(/# ... ........-....-....-....-............/g)
     const cellscount = cellsfound?.length ?? 0
     const cellsorder = text.indexOf("# ╔═╡ Cell order:") + "# ╔═╡ Cell order:".length + 1

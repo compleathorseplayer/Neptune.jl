@@ -764,7 +764,7 @@ export class Editor extends Component {
                                 ;(ignore ? console.log : console.error)(
                                     `#######################**************************########################
 PlutoError: StateOutOfSync: Failed to apply patches.
-Please report this: https://github.com/JuliaPluto/Pluto.jl/issues adding the info below:
+Please report this: https://github.com/JuliaPluto/Neptune.jl/issues adding the info below:
 failing path: ${failing_path}
 notebook previous value: ${path_value}
 patch: ${JSON.stringify(
@@ -941,8 +941,8 @@ all patches: ${JSON.stringify(patches, null, 1)}
         const on_connection_status = (val, hopeless) => {
             this.setState({ connected: val })
             if (hopeless) {
-                // https://github.com/fonsp/Pluto.jl/issues/55
-                // https://github.com/fonsp/Pluto.jl/issues/2398
+                // https://github.com/fonsp/Neptune.jl/issues/55
+                // https://github.com/fonsp/Neptune.jl/issues/2398
                 open_pluto_popup({
                     type: "warn",
                     body: html`<p>A new server was started - this notebook session is no longer running.</p>
@@ -1003,8 +1003,8 @@ all patches: ${JSON.stringify(patches, null, 1)}
         this.on_disable_ui = () => {
             set_disable_ui_css(this.state.disable_ui, props.pluto_editor_element)
 
-            // Pluto has three modes of operation:
-            // 1. (normal) Connected to a Pluto notebook.
+            // Neptune has three modes of operation:
+            // 1. (normal) Connected to a Neptune notebook.
             // 2. Static HTML with PlutoSliderServer. All edits are ignored, but bond changes are processes by the PlutoSliderServer.
             // 3. Static HTML without PlutoSliderServer. All interactions are ignored.
             //
@@ -1061,7 +1061,7 @@ all patches: ${JSON.stringify(patches, null, 1)}
                 })
             }
         }
-        /** This tracks whether we just set a bond value which will trigger a cell to run, but we are still waiting for the server to process the bond value (and run the cell). During this time, we won't send new bond values. See https://github.com/fonsp/Pluto.jl/issues/1891 for more info. */
+        /** This tracks whether we just set a bond value which will trigger a cell to run, but we are still waiting for the server to process the bond value (and run the cell). During this time, we won't send new bond values. See https://github.com/fonsp/Neptune.jl/issues/1891 for more info. */
         this.waiting_for_bond_to_trigger_execution = false
         /** Number of local updates that have not yet been applied to the server's state. */
         this.pending_local_updates = 0
@@ -1105,7 +1105,7 @@ all patches: ${JSON.stringify(patches, null, 1)}
             })
 
         /**
-         * We set `waiting_for_bond_to_trigger_execution` to `true` if it is *guaranteed* that this bond change will trigger something to happen (i.e. a cell to run). See https://github.com/fonsp/Pluto.jl/pull/1892 for more info about why.
+         * We set `waiting_for_bond_to_trigger_execution` to `true` if it is *guaranteed* that this bond change will trigger something to happen (i.e. a cell to run). See https://github.com/fonsp/Neptune.jl/pull/1892 for more info about why.
          *
          * This is guaranteed if there is a cell in the notebook that references the bound variable. We use our copy of the notebook's toplogy to check this.
          *
@@ -1114,7 +1114,7 @@ all patches: ${JSON.stringify(patches, null, 1)}
          *
          *     However, this change in topology will result in a patch, which will set `waiting_for_bond_to_trigger_execution` back to `false`.
          *
-         * 2. The backend has a "first value" mechanism: if bond values are being set for the first time *and* this value is already set on the backend, then the value will be skipped. See https://github.com/fonsp/Pluto.jl/issues/275. If all bond values are skipped, then we might get zero patches back (because no cells will run).
+         * 2. The backend has a "first value" mechanism: if bond values are being set for the first time *and* this value is already set on the backend, then the value will be skipped. See https://github.com/fonsp/Neptune.jl/issues/275. If all bond values are skipped, then we might get zero patches back (because no cells will run).
          *
          *     A bond value is considered a "first value" if it is sent using an `"add"` patch. This is why we require `x.op === "replace"`.
          */
@@ -1173,7 +1173,7 @@ all patches: ${JSON.stringify(patches, null, 1)}
                             if (response.message?.response?.update_went_well === "👎") {
                                 // We only throw an error for functions that are waiting for this
                                 // Notebook state will already have the changes reversed
-                                throw new Error(`Pluto update_notebook error: (from Julia: ${response.message.response.why_not})`)
+                                throw new Error(`Neptune update_notebook error: (from Julia: ${response.message.response.why_not})`)
                             }
                         }),
                         this.setStatePromise({
@@ -1511,7 +1511,7 @@ ${t("t_key_autosave_description")}`
             update_stored_recent_notebooks(new_state.notebook.path, old_state?.notebook?.path)
         }
         if (old_state?.notebook?.shortpath !== new_state.notebook.shortpath) {
-            if (!is_editor_embedded_inside_editor(old_props.pluto_editor_element)) document.title = "🎈 " + new_state.notebook.shortpath + " — Pluto.jl"
+            if (!is_editor_embedded_inside_editor(old_props.pluto_editor_element)) document.title = "🎈 " + new_state.notebook.shortpath + " — Neptune.jl"
         }
 
         this.maybe_send_queued_bond_changes()
@@ -1664,7 +1664,7 @@ ${t("t_key_autosave_description")}`
                             <a href=${
                                 this.state.binder_session_url != null ? `${this.state.binder_session_url}?token=${this.state.binder_session_token}` : "./"
                             }>
-                                <h1><img id="logo-big" src=${url_logo_big} alt="Pluto.jl" /><img id="logo-small" src=${url_logo_small} aria-hidden="true" /></h1>
+                                <h1><img id="logo-big" src=${url_logo_big} alt="Neptune.jl" /><img id="logo-small" src=${url_logo_small} aria-hidden="true" /></h1>
                             </a>
                             ${
                                 this.state.extended_components.CustomHeader &&
@@ -1856,7 +1856,7 @@ ${t("t_key_autosave_description")}`
                             <span style="flex: 1 1 0%; min-width: 5ch;"></span>
                             <form id="feedback" action="#" method="post">
                                 <label for="opinion">${th("t_how_can_we_improve", {
-                                    pluto: html`<a href="https://plutojl.org/" target="_blank">Pluto.jl</a>`,
+                                    pluto: html`<a href="https://plutojl.org/" target="_blank">Neptune.jl</a>`,
                                 })}</label>
                                 <input type="text" name="opinion" id="opinion" autocomplete="off" placeholder=${t("t_instant_feedback_ellipsis")} />
                                 <button>${t("t_instant_feedback_send")}</button>

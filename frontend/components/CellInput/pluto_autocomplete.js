@@ -272,7 +272,7 @@ const julia_code_completions_to_cm =
                         }
                     }),
                 // This is a small thing that I really want:
-                // You want to see what fancy symbols a module has? Pluto will show these at the very end of the list,
+                // You want to see what fancy symbols a module has? Neptune will show these at the very end of the list,
                 // for Base there is no way you're going to find them! With this you can type `.:` and see all the fancy symbols.
                 // TODO This whole block shouldn't use `override_text_to_apply_in_field_expression` but the same
                 //      `Meta.isoperator` thing mentioned above

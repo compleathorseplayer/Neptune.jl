@@ -138,7 +138,7 @@ export const start_binder = async ({ setStatePromise, connect, launch_params }) 
             })
         )
 
-        /// PART 2: Using Pluto's REST API to open the notebook file. We either upload the notebook with a POST request, or we let the server open by giving it the filename/URL.
+        /// PART 2: Using Neptune's REST API to open the notebook file. We either upload the notebook with a POST request, or we let the server open by giving it the filename/URL.
 
         let download_locally_and_upload = async () => {
             const upload_url = with_token(
@@ -207,7 +207,7 @@ export const start_binder = async ({ setStatePromise, connect, launch_params }) 
             })
         )
 
-        /// PART 3: We open the WebSocket connection to the Pluto server, connecting to the notebook ID that was created for us. If this fails, or after a 20 second timeout, we give up on hot-swapping a live backend into this static view, and instead we just redirect to the binder URL.
+        /// PART 3: We open the WebSocket connection to the Neptune server, connecting to the notebook ID that was created for us. If this fails, or after a 20 second timeout, we give up on hot-swapping a live backend into this static view, and instead we just redirect to the binder URL.
 
         console.log("Connecting WebSocket")
 

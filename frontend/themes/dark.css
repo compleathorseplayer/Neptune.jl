@@ -45,7 +45,7 @@
         --plutoland-url-bg: #02376f;
         --plutoland-or-bg-color: #323334;
 
-        /*Pluto output styling */
+        /*Neptune output styling */
         --pluto-schema-types-color: rgba(30, 19, 19, 0.6);
         --pluto-schema-types-border-color: rgba(255, 255, 255, 0.2);
         --pluto-dim-output-color: hsl(0, 0, 70%);
@@ -79,7 +79,7 @@
         --skip-as-script-background-color: #888;
         --depends-on-skip-as-script-background-color: #666;
 
-        /* Pluto shoulders */
+        /* Neptune shoulders */
         --shoulder-hover-bg-color: rgba(255, 255, 255, 0.05);
 
         /* Logs */

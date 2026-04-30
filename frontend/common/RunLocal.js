@@ -32,7 +32,7 @@ export const start_local = async ({ setStatePromise, connect, launch_params }) =
 
         let open_response
 
-        // We download the notebook file contents, and then upload them to the Pluto server.
+        // We download the notebook file contents, and then upload them to the Neptune server.
         const notebook_contents = await (
             await fetch(new Request(launch_params.notebookfile, { integrity: launch_params.notebookfile_integrity ?? undefined }))
         ).arrayBuffer()

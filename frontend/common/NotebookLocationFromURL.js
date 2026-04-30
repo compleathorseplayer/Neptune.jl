@@ -56,7 +56,7 @@ export const guess_notebook_location = async (path_or_url) => {
         }
     } catch (ex) {
         /* Remove eventual single/double quotes from the path if they surround it, see
-          https://github.com/fonsp/Pluto.jl/issues/1639 */
+          https://github.com/fonsp/Neptune.jl/issues/1639 */
         if (path_or_url[path_or_url.length - 1] === '"' && path_or_url[0] === '"') {
             path_or_url = path_or_url.slice(1, -1) /* Remove first and last character */
         }

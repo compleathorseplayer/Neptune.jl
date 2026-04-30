@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 // Separate file because Prettier cannot handle the `with` syntax.
-// These imports require quite modern browsers (https://caniuse.com/mdn-javascript_statements_import_import_attributes) but it will be bundled so it doesn't matter for Pluto releases.
+// These imports require quite modern browsers (https://caniuse.com/mdn-javascript_statements_import_import_attributes) but it will be bundled so it doesn't matter for Neptune releases.
 
 // in alphabetical order
 

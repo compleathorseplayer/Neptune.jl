@@ -22,7 +22,7 @@ const checkServerAvailability = async () => {
             })
                 .then((response) => response.ok)
                 .catch(() => {
-                    console.warn("AI features disabled: Unable to access Pluto AI server. This may be due to network restrictions.")
+                    console.warn("AI features disabled: Unable to access Neptune AI server. This may be due to network restrictions.")
                     return false
                 }),
             // Check if ChatGPT domain is accessible. If not, then the uni has blocked the domain (probably) and we want to disable AI features.
@@ -143,7 +143,7 @@ export const FixWithAIButton = ({ cell_id, diagnostics, last_run_timestamp }) =>
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(pluto_premium_llm_key ? { "X-Pluto-Premium-LLM-Key": pluto_premium_llm_key } : {}),
+                    ...(pluto_premium_llm_key ? { "X-Neptune-Premium-LLM-Key": pluto_premium_llm_key } : {}),
                 },
                 body: JSON.stringify({
                     code,

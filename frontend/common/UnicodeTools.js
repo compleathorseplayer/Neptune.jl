@@ -43,7 +43,7 @@ export const slice_utf8 = (original, startindex_utf8, endindex_utf8) => {
 console.assert(splice_utf8("e é 🐶 is a dog", 5, 9, "hannes ❤") === "e é hannes ❤ is a dog")
 console.assert(slice_utf8("e é 🐶 is a dog", 5, 9) === "🐶")
 
-// get this by running commit fd78c36f from https://github.com/fonsp/Pluto.jl/pull/3271
+// get this by running commit fd78c36f from https://github.com/fonsp/Neptune.jl/pull/3271
 // and manually add greek characters, see https://en.wikipedia.org/wiki/Unicode_subscripts_and_superscripts
 export const sub_charmap = {
     "0": "₀",
@@ -87,7 +87,7 @@ export const sub_charmap = {
     "χ": "ᵪ",
 }
 
-// get this by running commit fd78c36f from https://github.com/fonsp/Pluto.jl/pull/3271
+// get this by running commit fd78c36f from https://github.com/fonsp/Neptune.jl/pull/3271
 // and manually add greek characters, see https://en.wikipedia.org/wiki/Unicode_subscripts_and_superscripts
 export const sup_charmap = {
     "0": "⁰",

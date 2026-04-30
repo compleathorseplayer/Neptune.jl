@@ -129,13 +129,13 @@ const create_ws_connection = (address, { on_message, on_socket_close }, timeout_
                     } catch (process_err) {
                         console.error("Failed to process message from websocket", process_err, { message })
                         // prettier-ignore
-                        alert(`Something went wrong! You might need to refresh the page.\n\nPlease open an issue on https://github.com/JuliaPluto/Pluto.jl with this info:\n\nFailed to process update\n${process_err.message}\n\n${JSON.stringify(event)}`)
+                        alert(`Something went wrong! You might need to refresh the page.\n\nPlease open an issue on https://github.com/JuliaPluto/Neptune.jl with this info:\n\nFailed to process update\n${process_err.message}\n\n${JSON.stringify(event)}`)
                     }
                 } catch (unpack_err) {
                     console.error("Failed to unpack message from websocket", unpack_err, { event })
 
                     // prettier-ignore
-                    alert(`Something went wrong! You might need to refresh the page.\n\nPlease open an issue on https://github.com/JuliaPluto/Pluto.jl with this info:\n\nFailed to unpack message\n${unpack_err}\n\n${JSON.stringify(event)}`)
+                    alert(`Something went wrong! You might need to refresh the page.\n\nPlease open an issue on https://github.com/JuliaPluto/Neptune.jl with this info:\n\nFailed to unpack message\n${unpack_err}\n\n${JSON.stringify(event)}`)
                 }
             })
         }
@@ -186,7 +186,7 @@ let next_tick_promise = () => {
 /**
  * batched_updates(send) creates a wrapper around the real send, and understands the update_notebook messages.
  * Whenever those are sent, it will wait for a "tick" (basically the end of the code running now)
- * and then send all updates from this tick at once. We use this to fix https://github.com/fonsp/Pluto.jl/issues/928
+ * and then send all updates from this tick at once. We use this to fix https://github.com/fonsp/Neptune.jl/issues/928
  *
  * I need to put it here so other code,
  * like running cells, will also wait for the updates to complete.
@@ -267,7 +267,7 @@ const default_ws_address = () => ws_address_from_base(window.location.href)
  */
 
 /**
- * Open a connection with Pluto, that supports a question-response mechanism. The method is asynchonous, and resolves to a @see PlutoConnection when the connection is established.
+ * Open a connection with Neptune, that supports a question-response mechanism. The method is asynchonous, and resolves to a @see PlutoConnection when the connection is established.
  *
  * The server can also send messages to all clients, without being requested by them. These end up in the @see on_unrequested_update callback.
  *
@@ -450,7 +450,7 @@ const alert_if_not_authenticated = async (/** @type {string | URL} */ ws_url, ex
             const auth_url = auth_check_url_from_ws(ws_url)
             const response = await fetch(auth_url)
             if (response.status === 403 || response.status === 401) {
-                alert("This window has lost authentication to the Pluto server. Please refresh the page to continue.")
+                alert("This window has lost authentication to the Neptune server. Please refresh the page to continue.")
             }
         }
     }

@@ -1,4 +1,4 @@
-/** Send a message to the Pluto backend, and return a promise that resolves when the backend sends a response. Not all messages receive a response. */
+/** Send a message to the Neptune backend, and return a promise that resolves when the backend sends a response. Not all messages receive a response. */
 export function SendFn (
     message_type: string,
     body?: Object,

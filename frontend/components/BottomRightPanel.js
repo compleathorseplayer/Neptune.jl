@@ -47,7 +47,7 @@ export let BottomRightPanel = ({
         "open_bottom_right_panel",
         (/** @type {CustomEvent} */ e) => {
             console.log(e.detail)
-            // https://github.com/fonsp/Pluto.jl/issues/321
+            // https://github.com/fonsp/Neptune.jl/issues/321
             focus_docs_on_open_ref.current = false
             set_open_tab(e.detail)
             if (window.getComputedStyle(container_ref.current).display === "none") {
