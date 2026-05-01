@@ -1,7 +1,7 @@
 name = "Neptune"
-uuid = "e743aaa6-cd88-48fa-8898-5fe58e911dd1"
+uuid = "6741aa20-66dc-42c8-a8ae-3740631035cd"
 license = "MIT"
-version = "0.1.0"
+version = "0.15.0"
 authors = ["David Edelman <compleathorseplayer@gmail.com>"]
 
 [deps]
