@@ -95,7 +95,8 @@ function run_reactive_core!(
 
     # save the old topological order - we'll delete variables assigned from its
     # and re-evalutate its cells unless the cells have already run previously in the reactive run
-    old_order = topological_order_cached(old_topology, roots)
+    # Neptune: allow multiple cells to define the same variable (non-reactive notebooks have no single-owner requirement)
+    old_order = topological_order_cached(old_topology, roots; allow_multiple_defs=true)
 
     old_runnable = setdiff(old_order.runnable, already_run)
     to_delete_vars = union!(Set{Symbol}(), defined_variables(old_topology, old_runnable)...)
@@ -104,7 +105,8 @@ function run_reactive_core!(
 
     new_roots = setdiff(union(roots, keys(old_order.errable)), indirectly_deactivated)
     # get the new topological order
-    new_order = topological_order_cached(new_topology, new_roots)
+    # Neptune: allow_multiple_defs=true so redefining a variable in a later cell is not an error
+    new_order = topological_order_cached(new_topology, new_roots; allow_multiple_defs=true)
     new_runnable = setdiff(new_order.runnable, already_run)
     to_run = setdiff!(
         union(new_runnable, old_runnable),
