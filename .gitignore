@@ -23,4 +23,6 @@ frontend/package-lock.json
 profile.pb.gz
 
 test/snapshots
-.claude/worktrees/
+.claude/worktrees/*.jl.bak
+*.jl.backup
+notebook*.jl
