@@ -1,5 +1,23 @@
 # Neptune.jl
 
+> ## Neptune is no longer maintained
+>
+> **v0.15.0 is the final release.** It stays installable from the General
+> registry and will keep working as long as its dependencies resolve —
+> nothing is being removed or yanked.
+>
+> Neptune existed to give Julia users a non-reactive notebook whose files
+> were plain `.jl`. [Zed](https://zed.dev) now covers that ground natively:
+> `# %%` cell separators in an ordinary script, cells that run only when you
+> ask them to, results inline. It is the same model Neptune was built for,
+> in an editor I recommend without reservation — that is where I would point
+> anyone using Neptune today.
+>
+> Two things Zed does not replace: Pluto's HTML/PDF export of a notebook
+> with its outputs, and `@bind` interactive widgets. If you rely on either,
+> [Pluto.jl](https://github.com/JuliaPluto/Pluto.jl) is the better
+> destination.
+
 **Neptune is a non-reactive Julia notebook**, forked from [Pluto.jl](https://github.com/JuliaPluto/Pluto.jl).
 
 It looks and works exactly like Pluto, with one key difference: **cells do not automatically re-run when other cells change**. You decide when each cell runs, just like in Jupyter.
