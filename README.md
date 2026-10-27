@@ -7,14 +7,20 @@
 > nothing is being removed or yanked.
 >
 > Neptune existed to give Julia users a non-reactive notebook whose files
-> were plain `.jl`. [Zed](https://zed.dev) now covers that ground natively:
-> `# %%` cell separators in an ordinary script, cells that run only when you
-> ask them to, results inline. It is the same model Neptune was built for,
-> in an editor I recommend without reservation — that is where I would point
-> anyone using Neptune today.
+> were plain `.jl`. Its successor is
+> **[Julia Notebook](https://github.com/compleathorseplayer/JuliaNotebook)**:
+> a small browser notebook for ordinary `.jl` scripts with `# %%` cell
+> separators, where cells run only when you ask them to, output streams in
+> as it is printed, and results appear inline. It is the same model Neptune
+> was built for, with nothing else on the screen — that is where I would
+> point anyone using Neptune today. Why it exists:
+> [Julia Notebook: a notebook that gets out of your way](https://medium.com/@compleathorseplayer/julia-notebook-a-notebook-that-gets-out-of-your-way-91bdee59a4fa).
 >
-> Two things Zed does not replace: Pluto's HTML/PDF export of a notebook
-> with its outputs, and `@bind` interactive widgets. If you rely on either,
+> If you would rather have a full editor around your cells, [Zed](https://zed.dev)
+> supports the same `# %%` files natively.
+>
+> Two things neither replaces: Pluto's HTML/PDF export of a notebook with
+> its outputs, and `@bind` interactive widgets. If you rely on either,
 > [Pluto.jl](https://github.com/JuliaPluto/Pluto.jl) is the better
 > destination.
 
